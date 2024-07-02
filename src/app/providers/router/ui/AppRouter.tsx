@@ -23,8 +23,8 @@ const AppRouter = () => {
     return <Routes>
         <Route index path='/login' element={<div>Привет</div>}/>
         <Route path='/' element={<Page/>}>
-            {/* <Route index element={<MainPage/>}/> */}
-            {Object.values(routeConfig).slice(1).map(renderWithWrapper)}
+            <Route path='main' element={<></>}/>
+            {Object.values(routeConfig).slice(2).map(renderWithWrapper)}
         </Route>
     </Routes>;
 };

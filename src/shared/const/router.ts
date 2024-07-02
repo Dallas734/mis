@@ -1,5 +1,6 @@
 export enum AppRoutes {
     LOGIN = 'login',
+    MAIN = 'main',
     DOCTORS = 'doctors',
     SCHEDULE = 'schedule',
     PATIENTS = 'patients',
@@ -9,7 +10,8 @@ export enum AppRoutes {
     NOT_FOUND = 'not_found',
 }
 
-export const getRouteLogin = () => '/login';
+export const getRouteLogin = () => '/login'
+export const getRouteMain = () => '/main'
 export const getRouteDoctors = () => '/doctors'
 export const getRouteSchedule = () => '/schedule'
 export const getRoutePatients = () => '/patients'

@@ -14,7 +14,8 @@ import {
     getRouteDoctors,
     getRoutePatients,
     getRouteAddVisit,
-    getRouteSchedule
+    getRouteSchedule,
+    getRouteMain
 } from '../../../../shared/const/router';
 import { AppRoutesProps } from '../../../../shared/types/AppRouter';
 
@@ -22,6 +23,10 @@ export const routeConfig: Record<AppRoutes, AppRoutesProps> = {
     [AppRoutes.LOGIN]: {
         path: getRouteLogin(),
         element: <></>,
+    },
+    [AppRoutes.MAIN]: {
+        path: getRouteMain(),
+        element: <></>
     },
     [AppRoutes.DOCTORS]: {
         path: getRouteDoctors(),
