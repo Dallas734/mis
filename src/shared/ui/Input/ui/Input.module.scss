@@ -1,0 +1,34 @@
+@import '../../../../shared/styles/index.scss';
+
+.Input {
+    height: 34px;
+    width: 100%;
+    padding: 4px 6px;
+    border: 1px solid var(--color-main);
+    border-radius: var(--border-radius);
+    background-color: transparent;
+    outline: none;
+    color: var(--color-theme);
+    &:hover {
+    border-color: var(--color-dark);
+  }
+}
+
+.input-m {
+    height: 40px;
+    width: 350px;
+    padding: 6px 12px 6px 34px;
+}
+
+.icon {
+    background: no-repeat 7px;
+    background-size: 20px;
+}
+
+.user {
+    background-image: url('../../../assets/icons/user.svg');
+}
+
+.password {
+    background-image: url('../../../assets/icons/password.svg');
+}

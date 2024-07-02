@@ -1,4 +1,6 @@
+@import '../../../shared//styles/index.scss';
+
 .nav {
-    background: green;
+    background: var(--color-main);
     //width: 280px !important;
 }
