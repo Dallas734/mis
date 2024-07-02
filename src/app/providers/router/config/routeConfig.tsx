@@ -8,6 +8,7 @@
 // import { UsersPage } from '@/pages/UsersPage';
 // import { VeterinariansPage } from '@/pages/VeterinariansPage';
 // import { VisitPage } from '@/pages/VisitPage';
+import { DoctorsPage } from '../../../../pages/DoctorsPage';
 import {
     AppRoutes,
     getRouteLogin,
@@ -30,7 +31,7 @@ export const routeConfig: Record<AppRoutes, AppRoutesProps> = {
     },
     [AppRoutes.DOCTORS]: {
         path: getRouteDoctors(),
-        element: <></>
+        element: <DoctorsPage />
     },
     [AppRoutes.PATIENTS]: {
         path: getRoutePatients(),
