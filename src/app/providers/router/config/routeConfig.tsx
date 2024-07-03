@@ -49,40 +49,5 @@ export const routeConfig: Record<AppRoutes, AppRoutesProps> = {
     [AppRoutes.NOT_FOUND]: {
         path: '*',
         element: <></>
-    }
-    // //main и login всегда должны быть первыми!
-    // [AppRoutes.PETS]: {
-    //     path: getRoutePets(),
-    //     element: <PetsPage />
-    // },
-    // [AppRoutes.OWNERS]: {
-    //     path: getRouteOwners(),
-    //     element: <OwnersPage/>
-    // },
-    // [AppRoutes.VETERINARIANS]: {
-    //     path: getRouteVeterinarians(),
-    //     element: <VeterinariansPage />
-    // },
-    // [AppRoutes.SPECIALITIES]: {
-    //     path: getRouteSpecialities(),
-    //     element: <SpecialitiesPage />
-    // },
-    // [AppRoutes.PET_TYPES]: {
-    //     path: getRoutePetTypes(),
-    //     element: <PetTypesPage />
-    // },
-    // [AppRoutes.USERS]: {
-    //     path: getRouteUsers(),
-    //     element: <UsersPage />
-    // },
-    // [AppRoutes.VISIT]: {
-    //     path: getRouteVisit(),
-    //     element: <VisitPage />
-    // },
-
-    // //эта странца всегда должна быть последней!
-    // [AppRoutes.NOT_FOUND]: {
-    //     path: '*',
-    //     element: <NotFoundPage />,
-    // },
+    },
 };

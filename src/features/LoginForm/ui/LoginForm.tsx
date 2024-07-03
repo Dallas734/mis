@@ -62,6 +62,7 @@ export const LoginForm = () => {
         classes={InputClassesPassword}
         placeholder={"Пароль"}
         onChange={setPassword}
+
       />
       <label className={cls.inputWrapper} htmlFor="remember">
         <Input

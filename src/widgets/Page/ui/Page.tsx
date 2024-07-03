@@ -2,12 +2,20 @@ import { NavBar } from "../../NavBar";
 import { memo, useContext, useEffect } from "react";
 import cls from "./Page.module.scss";
 import { Outlet, useNavigate } from "react-router";
+import { UserApi } from "../../../entities/User/api/UserApi";
 // import { AuthContext } from "@/shared/lib/context/AuthContext";
 
 export const Page = memo(() => {
 
   // const { isAuth } = useContext(AuthContext)
   // const navigate = useNavigate();
+  const { data } = UserApi.useIsAuthQuery();
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (data === undefined) navigate('/login');
+  }, [data, navigate])
 
 //   useEffect(() => {
 //     if (!isAuth) {

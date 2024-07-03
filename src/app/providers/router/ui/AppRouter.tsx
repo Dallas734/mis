@@ -22,9 +22,9 @@ const AppRouter = () => {
     }, []);
 
     return <Routes>
-        <Route index path='/login' element={<LoginPage />}/>
+        <Route index path='/login' element={<LoginPage/>}/>
         <Route path='/' element={<Page/>}>
-            <Route path='main' element={<></>}/>
+            <Route path='/main' element={<></>}/>
             {Object.values(routeConfig).slice(2).map(renderWithWrapper)}
         </Route>
     </Routes>;
