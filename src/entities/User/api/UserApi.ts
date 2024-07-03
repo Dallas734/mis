@@ -18,7 +18,8 @@ export const UserApi = createApi({
       }),
     }),
     isAuth: builder.query<User, void>({
-      query: () => ({ url: "isauthenticated", method: "GET" })
+      query: () => ({ url: "isauthenticated", method: "GET" }),
+      providesTags: ["User"]
     }),
   }),
 });

@@ -1,9 +1,18 @@
-import { Suspense } from "react";
+import { Suspense, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { UserApi } from "../entities/User/api/UserApi";
 import AppRouter from "./providers/router/ui/AppRouter";
-//import { useTheme } from '@/shared/lib/hooks/useTheme/useTheme';
 
 function App() {
-  //const { theme } = useTheme();
+  const { data, isLoading } = UserApi.useIsAuthQuery();
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!isLoading) {
+      if (data === undefined) navigate("/login");
+    }
+  }, [data, isLoading, navigate]);
 
   return (
     // <div className={classNames('app', theme)}*/}>
