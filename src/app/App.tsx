@@ -11,6 +11,7 @@ function App() {
   useEffect(() => {
     if (!isLoading) {
       if (data === undefined) navigate("/login");
+      else navigate('/main')
     }
   }, [data, isLoading, navigate]);
 
