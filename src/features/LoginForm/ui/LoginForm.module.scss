@@ -12,10 +12,29 @@
     border: 2px solid var(--color-main);
     border-radius: 5px;
     padding-bottom: 10px;
+    background-color: white;
 }
 
 .head {
     text-align: center;
     font-size: large;
     font-weight: bold;
+}
+
+.inputWrapper {
+    //width: 100%;
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    // column-gap: 15px;
+    user-select: none;
+    margin-right: 260px;
+
+    &:not(:last-child) {
+        margin-bottom: 30px;
+    }
+}
+
+.red {
+    color: red;
 }

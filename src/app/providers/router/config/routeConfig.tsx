@@ -9,6 +9,7 @@
 // import { VeterinariansPage } from '@/pages/VeterinariansPage';
 // import { VisitPage } from '@/pages/VisitPage';
 import { DoctorsPage } from '../../../../pages/DoctorsPage';
+import { LoginPage } from '../../../../pages/LoginPage';
 import {
     AppRoutes,
     getRouteLogin,
@@ -23,7 +24,7 @@ import { AppRoutesProps } from '../../../../shared/types/AppRouter';
 export const routeConfig: Record<AppRoutes, AppRoutesProps> = {
     [AppRoutes.LOGIN]: {
         path: getRouteLogin(),
-        element: <></>,
+        element: <LoginPage />,
     },
     [AppRoutes.MAIN]: {
         path: getRouteMain(),

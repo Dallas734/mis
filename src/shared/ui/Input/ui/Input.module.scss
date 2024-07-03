@@ -14,6 +14,40 @@
   }
 }
 
+// .checkbox {
+//     width: 30px;
+//     display: flex;
+//     align-items: center;
+//     column-gap: 14px;
+//     transition-duration: var(--transition-duration);
+  
+//     &:checked + .emulatorCheckBox::after {
+//       display: inline-block;
+//     }
+    
+//     &:not(:checked) + .emulatorCheckBox::after {
+//       display: none;
+//     }
+    
+//   }
+
+//   .emulatorCheckBox {
+//     //@include flex-center;
+//     //@include square(25px);
+  
+//     position: relative;
+//     background-color: transparent;
+//     border: 2px solid var(--Input-border-color);
+//     border-radius: var(--border-radius);
+  
+//     &::after {
+//         //@include abs-center;
+//         //@include square(15px);
+//         content: '';
+//         //background: url(/shared/assets/icons/inputs/comboBoxChecked.svg) center/cover no-repeat
+//     }
+//   }
+
 .input-m {
     height: 40px;
     width: 350px;

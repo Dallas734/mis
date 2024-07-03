@@ -4,6 +4,7 @@ import { PageLoader } from "../../../../widgets/PageLoader";
 import { Route, Routes } from "react-router-dom";
 import { Page } from "../../../../widgets/Page";
 import { routeConfig } from "../config/routeConfig";
+import { LoginPage } from "../../../../pages/LoginPage";
 
 const AppRouter = () => {
     const renderWithWrapper = useCallback((route: AppRoutesProps) => {
@@ -21,7 +22,7 @@ const AppRouter = () => {
     }, []);
 
     return <Routes>
-        <Route index path='/login' element={<div>Привет</div>}/>
+        <Route index path='/login' element={<LoginPage />}/>
         <Route path='/' element={<Page/>}>
             <Route path='main' element={<></>}/>
             {Object.values(routeConfig).slice(2).map(renderWithWrapper)}

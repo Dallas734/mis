@@ -6,6 +6,7 @@ import { GenderApi } from "../../../../entities/Gender/api/GenderApi";
 import { PatientApi } from "../../../../entities/Patient/api/PatientApi";
 import { SpecializationApi } from "../../../../entities/Specialization/api/SpecializationApi";
 import { StatusApi } from "../../../../entities/Status/api/StatusApi";
+import { UserApi } from "../../../../entities/User/api/UserApi";
 
 const rootReducer = combineReducers({
   [DoctorApi.reducerPath]: DoctorApi.reducer,
@@ -15,6 +16,7 @@ const rootReducer = combineReducers({
   [PatientApi.reducerPath]: PatientApi.reducer,
   [SpecializationApi.reducerPath]: SpecializationApi.reducer,
   [StatusApi.reducerPath]: StatusApi.reducer,
+  [UserApi.reducerPath]: UserApi.reducer
 });
 
 export const store = configureStore({
@@ -28,6 +30,7 @@ export const store = configureStore({
       .concat(PatientApi.middleware)
       .concat(SpecializationApi.middleware)
       .concat(StatusApi.middleware)
+      .concat(UserApi.middleware)
 });
 
 export type AppDispatch = typeof store.dispatch;
