@@ -5,9 +5,6 @@ export enum AppRoutes {
     SCHEDULE = 'schedule',
     PATIENTS = 'patients',
     ADD_VISIT = 'add_visit',
-
-    
-    NOT_FOUND = 'not_found',
 }
 
 export const getRouteLogin = () => '/login'

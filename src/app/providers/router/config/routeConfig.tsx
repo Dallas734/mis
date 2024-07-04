@@ -10,6 +10,7 @@
 // import { VisitPage } from '@/pages/VisitPage';
 import { DoctorsPage } from '../../../../pages/DoctorsPage';
 import { LoginPage } from '../../../../pages/LoginPage';
+import { NotFoundPage } from '../../../../pages/NotFoundPage';
 import {
     AppRoutes,
     getRouteLogin,
@@ -45,9 +46,5 @@ export const routeConfig: Record<AppRoutes, AppRoutesProps> = {
     [AppRoutes.SCHEDULE]: {
         path: getRouteSchedule(),
         element: <></>
-    },
-    [AppRoutes.NOT_FOUND]: {
-        path: '*',
-        element: <></>
-    },
+    }
 };

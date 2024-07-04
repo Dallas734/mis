@@ -45,6 +45,7 @@ const { isAuth, setIsAuth } = useContext(AuthContext)
       const { data } = await auth(loginScheme);
       setIsAuth && setIsAuth(true);
       navigate('/main');
+      //console.log(isAuth)
 
       console.log(data?.responseUser);
     } catch (error) {

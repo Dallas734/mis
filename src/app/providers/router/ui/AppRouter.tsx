@@ -5,6 +5,8 @@ import { Route, Routes } from "react-router-dom";
 import { Page } from "../../../../widgets/Page";
 import { routeConfig } from "../config/routeConfig";
 import { LoginPage } from "../../../../pages/LoginPage";
+import { NotFoundPage } from "../../../../pages/NotFoundPage";
+import { RequireAuth } from "./RequireAuth";
 
 const AppRouter = () => {
     const renderWithWrapper = useCallback((route: AppRoutesProps) => {
@@ -16,15 +18,16 @@ const AppRouter = () => {
             <Route
                 key={route.path}
                 path={route.path}
-                element={element}
+                element={<RequireAuth>{element}</RequireAuth>}
             />
         );
     }, []);
 
     return <Routes>
         <Route index element={<LoginPage/>}/>
+        <Route path='*' element={<NotFoundPage />}/>
         <Route path='/' element={<Page/>}>
-            <Route path='/main' element={<></>}/>
+            <Route path='/main' element={<RequireAuth><></></RequireAuth>}/>
             {Object.values(routeConfig).slice(2).map(renderWithWrapper)}
         </Route>
     </Routes>;
