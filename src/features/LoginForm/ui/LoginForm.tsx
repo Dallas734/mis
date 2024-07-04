@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useContext } from "react";
 import cls from "./LoginForm.module.scss";
 import { Input } from "../../../shared/ui/Input";
 import { useNavigate } from "react-router-dom";
@@ -6,12 +6,15 @@ import classNames from "classnames";
 import { Button } from "../../../shared/ui/Button";
 import { UserApi } from "../../../entities/User/api/UserApi";
 import { LoginScheme, ResponseScheme } from "../../../entities/User";
+import { AuthContext } from "../../../shared/context/IsAuthContext";
 
 export const LoginForm = () => {
   const [auth, { error }] = UserApi.useAuthMutation();
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [rememberMe, setRememberMe] = useState<boolean>(false);
+
+const { isAuth, setIsAuth } = useContext(AuthContext)
 
   const navigate = useNavigate();
 
@@ -40,6 +43,7 @@ export const LoginForm = () => {
       };
 
       const { data } = await auth(loginScheme);
+      setIsAuth && setIsAuth(true);
       navigate('/main');
 
       console.log(data?.responseUser);

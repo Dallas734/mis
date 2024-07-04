@@ -3,10 +3,10 @@ import { memo, useContext, useEffect } from "react";
 import cls from "./Page.module.scss";
 import { Outlet, useNavigate } from "react-router";
 import { UserApi } from "../../../entities/User/api/UserApi";
-// import { AuthContext } from "@/shared/lib/context/AuthContext";
+import { AuthContext } from "../../../shared/context/IsAuthContext";
 
 export const Page = memo(() => {
-  
+
   return (
     <div className={cls.page}>
       <NavBar />
