@@ -10,7 +10,6 @@
 // import { VisitPage } from '@/pages/VisitPage';
 import { DoctorsPage } from '../../../../pages/DoctorsPage';
 import { LoginPage } from '../../../../pages/LoginPage';
-import { NotFoundPage } from '../../../../pages/NotFoundPage';
 import {
     AppRoutes,
     getRouteLogin,

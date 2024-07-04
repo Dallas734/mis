@@ -10,8 +10,8 @@ import { AuthContext } from "../../../shared/context/IsAuthContext";
 
 export const LoginForm = () => {
   const [auth, { error }] = UserApi.useAuthMutation();
-  const [username, setUsername] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
+  const [username, setUsername] = useState<string>("vernidub66@gmail.com");
+  const [password, setPassword] = useState<string>("Baguvix_160403");
   const [rememberMe, setRememberMe] = useState<boolean>(false);
 
 const { isAuth, setIsAuth } = useContext(AuthContext)
@@ -44,10 +44,11 @@ const { isAuth, setIsAuth } = useContext(AuthContext)
 
       const { data } = await auth(loginScheme);
       setIsAuth && setIsAuth(true);
-      navigate('/main');
+      if (data?.responseUser)
+        navigate('/main');
       //console.log(isAuth)
 
-      console.log(data?.responseUser);
+      //console.log(data?.responseUser);
     } catch (error) {
       console.log(error);
     }
@@ -61,13 +62,14 @@ const { isAuth, setIsAuth } = useContext(AuthContext)
         classes={InputClassesUser}
         placeholder="Email"
         onChange={setUsername}
+        value={username}
       />
       <Input
         type="password"
         classes={InputClassesPassword}
         placeholder={"Пароль"}
         onChange={setPassword}
-
+        value={password}
       />
       <label className={cls.inputWrapper} htmlFor="remember">
         <Input

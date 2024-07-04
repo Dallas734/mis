@@ -16,6 +16,7 @@ export const UserApi = createApi({
         body: loginScheme,
         credentials: "include",
       }),
+      invalidatesTags: ['User']
     }),
     isAuth: builder.query<User, void>({
       query: () => ({ url: "isauthenticated", method: "GET" }),
