@@ -31,11 +31,11 @@ export const DoctorModal = (props: ModalProps) => {
   const [firstName, setFirstName] = useState<string>();
   const [surname, setSurname] = useState<string>();
   const [dateOfBirth, setDateOfBirth] = useState<string>();
-  const [specialization, setSpecialization] = useState<Specialization>();
-  const [status, setStatus] = useState<Status>();
-  const [area, setArea] = useState<Area>();
-  const [category, setCategory] = useState<Category>();
-  const [gender, setGender] = useState<Gender>();
+  const [specializationId, setSpecializationId] = useState<string>();
+  const [statusId, setStatusId] = useState<string>();
+  const [areaId, setAreaId] = useState<string>();
+  const [categoryId, setCategoryId] = useState<string>();
+  const [genderId, setGenderId] = useState<string>();
   const { data: specializations } =
     SpecializationApi.useFetchAllSpecializationsQuery();
   const { data: statuses } = StatusApi.useFetchAllStatusesQuery();
@@ -88,11 +88,11 @@ export const DoctorModal = (props: ModalProps) => {
     setFirstName(doctor?.firstName);
     setSurname(doctor?.surname);
     setDateOfBirth(doctor?.dateOfBirth);
-    setSpecialization(doctor?.specialization);
-    setStatus(doctor?.status);
-    setArea(doctor?.area);
-    setCategory(doctor?.category);
-    setGender(doctor?.gender);
+    setSpecializationId(doctor?.specialization.id.toString());
+    setStatusId(doctor?.status.id.toString());
+    setAreaId(doctor?.area.id.toString());
+    setCategoryId(doctor?.category.id.toString(0));
+    setGenderId(doctor?.gender.id.toString());
   }, [doctor]);
 
   const handleSubmit = () => {};
@@ -124,7 +124,8 @@ export const DoctorModal = (props: ModalProps) => {
             data={specializations}
             selectValue={"id"}
             selectLabel={"name"}
-            value={specialization?.id}
+            value={specializationId}
+            onChange={setSpecializationId}
           />
         </div>
         <div className={cls.field}>
@@ -133,7 +134,8 @@ export const DoctorModal = (props: ModalProps) => {
             data={statuses}
             selectValue={"id"}
             selectLabel={"name"}
-            value={status?.id}
+            value={statusId}
+            onChange={setStatusId}
           />
         </div>
         <div className={cls.field}>
@@ -142,7 +144,8 @@ export const DoctorModal = (props: ModalProps) => {
             data={areas}
             selectValue={"id"}
             selectLabel={"id"}
-            value={area?.id}
+            value={areaId}
+            onChange={setAreaId}
           />
         </div>
         <div className={cls.field}>
@@ -151,7 +154,8 @@ export const DoctorModal = (props: ModalProps) => {
             data={categories}
             selectValue={"id"}
             selectLabel={"name"}
-            value={category?.id}
+            value={categoryId}
+            onChange={setCategoryId}
           />
         </div>
         <div className={cls.field}>
@@ -160,7 +164,8 @@ export const DoctorModal = (props: ModalProps) => {
             data={genders}
             selectValue={"id"}
             selectLabel={"name"}
-            value={gender?.id}
+            value={genderId}
+            onChange={setGenderId}
           />
         </div>
         <div className={cls.buttons}>
