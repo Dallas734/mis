@@ -95,7 +95,6 @@ export const NTable = <T extends Object>(props: TableProps<T>) => {
         i++;
       }
       i--;
-      console.log(firstArray);
       if (firstArray > secondArray) {
         return 1;
       } else if (firstArray < secondArray) {

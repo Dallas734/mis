@@ -10,6 +10,9 @@ import classNames from "classnames";
 export const DoctorsPage = () => {
   const { data: doctors } = DoctorApi.useFetchAllDoctorsQuery();
   const [selectedDoctor, setSelectedDoctor] = useState<Doctor>();
+  const [ deleteDoctor ] = DoctorApi.useDeleteDoctorMutation();
+  const [ createDoctor ] = DoctorApi.useCreateDoctorMutation();
+  const [ updateDoctor ] = DoctorApi.useUpdateDoctorMutation();
 
   const head: TableColumn[] = [
     {index: 'lastName', name: 'Фамилия', sortMethod: "asc"},
@@ -45,8 +48,8 @@ export const DoctorsPage = () => {
   ).split(" ");
 
   const handleDeleteButton = () => {
-    // if (selectedDoctor) deletePet(selectedPet?.id);
-    // setSelectedDoctor(undefined);
+    if (selectedDoctor) deleteDoctor(selectedDoctor?.id);
+    setSelectedDoctor(undefined);
   };
 
 //   const handleClearFilterButton = () => {
