@@ -3,6 +3,9 @@ import { DoctorApi } from "../../../entities/Doctor/api/DoctorApi";
 import { NTable } from "../../../shared/ui/Table";
 import { TableColumn } from "../../../shared/types/TableColumn";
 import { Doctor } from "../../../entities/Doctor";
+import cls from './DoctorsPage.module.scss'
+import { Button } from "../../../shared/ui/Button";
+import classNames from "classnames";
 
 export const DoctorsPage = () => {
   const { data: doctors } = DoctorApi.useFetchAllDoctorsQuery();
@@ -20,13 +23,66 @@ export const DoctorsPage = () => {
     {index: 'gender.name', name: 'Пол', sortMethod: "asc"}
   ]
 
-//   useEffect(() => {
-//     //console.log(doctors);
-//     console.log(selectedDoctor);
-//   }, [selectedDoctor])
+  const createButtonClasses = classNames(
+    "icon",
+    "crud",
+    "border-radius",
+    "createButton"
+  ).split(" ");
+
+  const editButtonClasses = classNames(
+    "icon",
+    "crud",
+    "border-radius",
+    "editButton"
+  ).split(" ");
+
+  const deleteButtonClasses = classNames(
+    "icon",
+    "crud",
+    "border-radius",
+    "deleteButton"
+  ).split(" ");
+
+  const handleDeleteButton = () => {
+    // if (selectedDoctor) deletePet(selectedPet?.id);
+    // setSelectedDoctor(undefined);
+  };
+
+//   const handleClearFilterButton = () => {
+//     setId("");
+//     setSelectedTypeId("");
+//     setSelectedOwnerId("");
+//     setSelectedBirthday(1995);
+//   };
+
+  const handleCreateButton = () => {
+    // setQueryType('CREATE');
+    // setModalIsOpen(true);
+  }
+
+  const handleUpdateButton = () => {
+    // setQueryType('UPDATE');
+    // setModalIsOpen(true)
+  }
 
   return (
     <>
+    <div className={cls.fieldsBlock}>
+          <Button children="Создать" classes={createButtonClasses} onClick={handleCreateButton}/>
+          <Button
+            children="Изменить"
+            classes={editButtonClasses}
+            disabled={selectedDoctor ? false : true}
+            onClick={handleUpdateButton}
+          />
+          <Button
+            children="Удалить"
+            classes={deleteButtonClasses}
+            disabled={selectedDoctor ? false : true}
+            onClick={handleDeleteButton}
+          />
+        </div>
       <NTable head={head} data={doctors} setSelectedElement={setSelectedDoctor}></NTable>
     </>
   );

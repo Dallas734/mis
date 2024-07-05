@@ -12,6 +12,29 @@ export const DoctorApi = createApi({
                 url: 'Doctors'
             }),
             providesTags: ['Doctor']
+        }),
+        deleteDoctor: builder.mutation<void, number | undefined>({
+            query: (id) => ({
+                url: `Doctors/${id}`,
+                method: 'DELETE',
+            }),
+            invalidatesTags: ['Doctor']
+        }),
+        createDoctor: builder.mutation<Doctor, Doctor>({
+            query: (doctor) => ({
+                url: 'Doctors',
+                method: 'POST',
+                body: doctor
+            }),
+            invalidatesTags: ['Doctor']
+        }),
+        updateDoctor: builder.mutation<Doctor, Doctor>({
+            query: (doctor) => ({
+                url: `Doctors/${doctor.id}`,
+                method: 'PUT',
+                body: doctor
+            }),
+            invalidatesTags: ['Doctor']
         })
     })
 })
