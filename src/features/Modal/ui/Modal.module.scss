@@ -1,0 +1,49 @@
+@import '/src/app/styles/index.scss';
+
+.modal {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    translate: -50% -50%;
+
+    flex-direction: column;
+    display: none;
+    position: absolute;
+    padding: 25px 10px 30px 10px;
+    min-width: 200px;
+    min-height: 200px;
+    background-color: white;
+    border-radius: var(--border-radius);
+    //color: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    z-index: 3;
+}
+
+.open {
+    display: flex;
+}
+
+.content {
+    // @include flex-center;
+    flex-direction: column;
+    row-gap: 30px;
+    padding: 5px 5px 30px 5px;
+    width: max-content;
+}
+
+.buttons {
+    display: flex;
+    justify-content: flex-end;
+    column-gap: 15px;
+    margin-top: -20px;
+}
+
+.doctorModal { 
+    width: 700px; 
+}
+
+.modalHead {
+    font-weight: bold;
+    font-size: x-large;
+    margin-bottom: 10px;
+}

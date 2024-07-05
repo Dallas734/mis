@@ -1,0 +1,30 @@
+// .petName {
+//     display: flex;
+//     width: 650px;
+//     gap: 50px;
+//     margin-bottom: 10px;
+// }
+
+.modal {
+    display: flex;
+    flex-direction: column;
+}
+
+.block { 
+    display: flex;
+    width: 660px;
+    flex-wrap: wrap;
+    gap: 7px;
+}
+
+.field {
+    display: flex;
+    width: 325px;
+    gap: 38px;
+    margin-bottom: 10px;
+}
+
+.buttons {
+    display: flex;
+    gap: 10px;
+}

@@ -6,6 +6,8 @@ import { Doctor } from "../../../entities/Doctor";
 import cls from './DoctorsPage.module.scss'
 import { Button } from "../../../shared/ui/Button";
 import classNames from "classnames";
+import { QueryT } from "../../../shared/types/QueryT";
+import { DoctorModal } from "../../../widgets/Modals/DoctorModal";
 
 export const DoctorsPage = () => {
   const { data: doctors } = DoctorApi.useFetchAllDoctorsQuery();
@@ -13,6 +15,8 @@ export const DoctorsPage = () => {
   const [ deleteDoctor ] = DoctorApi.useDeleteDoctorMutation();
   const [ createDoctor ] = DoctorApi.useCreateDoctorMutation();
   const [ updateDoctor ] = DoctorApi.useUpdateDoctorMutation();
+  const [queryType, setQueryType] = useState<QueryT | undefined>();
+  const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
 
   const head: TableColumn[] = [
     {index: 'lastName', name: 'Фамилия', sortMethod: "asc"},
@@ -60,8 +64,8 @@ export const DoctorsPage = () => {
 //   };
 
   const handleCreateButton = () => {
-    // setQueryType('CREATE');
-    // setModalIsOpen(true);
+    setQueryType('CREATE');
+    setModalIsOpen(true);
   }
 
   const handleUpdateButton = () => {
@@ -71,6 +75,7 @@ export const DoctorsPage = () => {
 
   return (
     <>
+    <DoctorModal isOpen={modalIsOpen} setIsOpen={setModalIsOpen} doctor={selectedDoctor} queryType={queryType}/>
     <div className={cls.fieldsBlock}>
           <Button children="Создать" classes={createButtonClasses} onClick={handleCreateButton}/>
           <Button

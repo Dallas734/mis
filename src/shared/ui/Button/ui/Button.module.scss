@@ -31,3 +31,64 @@
 .border-radius {
     border-radius: var(--border-radius);
 }
+
+.closeButton {
+    @include square(20px);
+
+    position: relative;
+    padding: 5px;
+
+    &::before,
+    &::after {
+        content: "";
+        position: absolute;
+        top: 48%;
+        left: 15%;
+        width: 70%;
+        height: 2px;
+        background-color: var(--color-theme);
+        border-radius: 5px;
+    }
+
+    &::before {
+        rotate: 45deg;
+    }
+
+    &::after {
+        rotate: -45deg;
+    }
+
+    &:not(:disabled)
+    {
+        :hover {
+            opacity: 0.7;
+        }
+    }
+
+}
+
+.closeModalCross {
+    align-self: flex-end;
+    margin-top: -15px;
+}
+
+.okButton {
+    background-color: var(--color-purple-light);
+    color: var(--color-light);
+    // background-image: url(../../assets/icons/buttons/check-tick-svgrepo-com.svg);  
+}
+
+.crud {
+    background-color: var(--theme-crud-button-color-bg);
+    transition-duration: 0s;
+    color: currentColor;
+    font-weight: 500;
+
+    &:not(:disabled)
+    {
+        :hover {
+            background-color: var(--color-hover-crud-button-bg);
+        }
+    }
+
+}
