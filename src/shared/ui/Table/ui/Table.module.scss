@@ -1,0 +1,10 @@
+@import '../../../../shared/styles/index.scss';
+
+.headStyle {
+    background-color: var(--color-main);
+    color: white;
+}
+
+.active {
+    background-color: var(--color-select-table) !important;
+  }
