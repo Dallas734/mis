@@ -97,9 +97,7 @@ export const Modal = (props: ModalProps) => {
             <Button classes={closeButtonClasses} onClick={onClose}/>
             <span className={cls.modalHead}>{title}</span>
             <div className={cls.content}>
-                <div>
-                    {children}
-                </div>
+                {children}
             </div>
         </div>
     );

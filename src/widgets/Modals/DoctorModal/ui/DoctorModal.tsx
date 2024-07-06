@@ -99,10 +99,71 @@ export const DoctorModal = (props: ModalProps) => {
 
   const closeModal = () => setIsOpen(false);
 
+  const selectClasses = classNames('modalSelect').split(' ');
+
   const ModalContent = (
     <div className={cls.modal}>
       <form onSubmit={handleSubmit}>
-        <div className={cls.field}>
+        <div className={cls.main}>
+          <div className={cls.labels}>
+            <label>Фамилия</label>
+            <label>Имя</label>
+            <label>Отчество</label>
+            <label>Дата рождения</label>
+            <label>Специализация</label>
+            <label>Статус</label>
+            <label>Участок</label>
+            <label>Категория</label>
+            <label>Пол</label>
+          </div>
+          <div className={cls.inputs}>
+            <Input onChange={setLastName} value={lastName} />
+            <Input onChange={setFirstName} value={firstName} />
+            <Input onChange={setSurname} value={surname} />
+            <Input type="date" onChange={setDateOfBirth} value={dateOfBirth} />
+            <Select
+              data={specializations}
+              selectValue={"id"}
+              selectLabel={"name"}
+              value={specializationId}
+              onChange={setSpecializationId}
+              classes={selectClasses}
+            />
+            <Select
+              data={statuses}
+              selectValue={"id"}
+              selectLabel={"name"}
+              value={statusId}
+              onChange={setStatusId}
+              classes={selectClasses}
+            />
+            <Select
+              data={areas}
+              selectValue={"id"}
+              selectLabel={"id"}
+              value={areaId}
+              onChange={setAreaId}
+              classes={selectClasses}
+            />
+            <Select
+              data={categories}
+              selectValue={"id"}
+              selectLabel={"name"}
+              value={categoryId}
+              onChange={setCategoryId}
+              classes={selectClasses}
+            />
+            <Select
+              data={genders}
+              selectValue={"id"}
+              selectLabel={"name"}
+              value={genderId}
+              onChange={setGenderId}
+              classes={selectClasses}
+            />
+          </div>
+        </div>
+        {/* <div className={cls.field}>
           <label>Фамилия</label>
           <Input onChange={setLastName} value={lastName} />
         </div>
@@ -167,7 +228,7 @@ export const DoctorModal = (props: ModalProps) => {
             value={genderId}
             onChange={setGenderId}
           />
-        </div>
+        </div>*/}
         <div className={cls.buttons}>
           <Button children={"OK"} classes={okButtonClasses} type="submit" />
           <Button

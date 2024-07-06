@@ -1,7 +1,7 @@
 @import '../../../../shared/styles/index.scss';
 
 .Input {
-    height: 34px;
+    height: var(--input-height);
     width: 100%;
     padding: 4px 6px;
     border: 1px solid var(--color-main);

@@ -4,7 +4,8 @@
     border-radius: var(--border-radius);
 
     width: 100%;
-    height: var(--input-height);
+    height: 30px;
+    border-color: var(--color-main);
     
     :hover {
         border-color: var(--color-purple-dark);
@@ -13,4 +14,9 @@
     &:focus {
         border-color: var(--color-purple-dark);
     }
+}
+
+.modalSelect
+{
+    height: 20px !important
 }
