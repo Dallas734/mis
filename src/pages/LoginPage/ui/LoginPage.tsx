@@ -1,10 +1,10 @@
-import classNames from "classnames";
+// import classNames from "classnames";
 import { LoginForm } from "../../../features/LoginForm";
 import cls from "./LoginPage.module.scss";
 
 export const LoginPage = () => {
 
-    const blockClasses = classNames('block').concat(' ');
+  // const blockClasses = classNames('block').concat(' ');
 
   return (
     <main>

@@ -18,9 +18,7 @@ export const Modal = (props: ModalProps) => {
     const modalRef = useRef<HTMLDivElement>(null);
 
     const closeButtonClasses = classNames(
-        'closeButton',
-        'closeModalCross',
-        'transparent'
+        'closeButton'
     ).split(' ');
 
     useEffect(() => {

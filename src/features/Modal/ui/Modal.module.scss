@@ -9,7 +9,7 @@
     flex-direction: column;
     display: none;
     position: absolute;
-    padding: 25px 10px 30px 10px;
+    padding: 5px 10px 0px 10px;
     min-width: 200px;
     min-height: 200px;
     background-color: white;
@@ -35,7 +35,8 @@
     display: flex;
     justify-content: flex-end;
     column-gap: 15px;
-    margin-top: -20px;
+    margin-top: 10px;
+    margin: 20px;
 }
 
 .doctorModal { 

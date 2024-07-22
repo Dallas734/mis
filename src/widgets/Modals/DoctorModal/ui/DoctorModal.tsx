@@ -1,14 +1,9 @@
 import { Doctor } from "../../../../entities/Doctor";
-import { Specialization } from "../../../../entities/Specialization";
-import { Status } from "../../../../entities/Status";
-import { Area } from "../../../../entities/Area";
 import { QueryT } from "../../../../shared/types/QueryT";
 import { Input } from "../../../../shared/ui/Input";
 import cls from "./DoctorModal.module.scss";
 import { useState, useEffect } from "react";
-import { Category } from "../../../../entities/Category";
-import { Gender } from "../../../../entities/Gender";
-import { Select, Option } from "../../../../shared/ui/Select";
+import { Select } from "../../../../shared/ui/Select";
 import { SpecializationApi } from "../../../../entities/Specialization/api/SpecializationApi";
 import { StatusApi } from "../../../../entities/Status/api/StatusApi";
 import { AreaApi } from "../../../../entities/Area/api/AreaApi";
@@ -17,6 +12,7 @@ import { GenderApi } from "../../../../entities/Gender/api/GenderApi";
 import { Button } from "../../../../shared/ui/Button";
 import classNames from "classnames";
 import { Modal } from "../../../../features/Modal";
+import { DoctorApi } from "../../../../entities/Doctor/api/DoctorApi";
 
 interface ModalProps {
   isOpen: boolean;
@@ -42,31 +38,8 @@ export const DoctorModal = (props: ModalProps) => {
   const { data: areas } = AreaApi.useFetchAllAreasQuery();
   const { data: categories } = CategoryApi.useFetchAllCategoriesQuery();
   const { data: genders } = GenderApi.useFetchAllGendersQuery();
-
-  //   const specializationOptions: Option[] = specializations?.map((el) => ({
-  //     value: el.id,
-  //     label: el.name,
-  //   })) as Option[];
-
-  //   const statusOptions: Option[] = statuses?.map((el) => ({
-  //     value: el.id,
-  //     label: el.name,
-  //   })) as Option[];
-
-  //   const areaOptions: Option[] = areas?.map((el) => ({
-  //     value: el.id,
-  //     label: el.id.toString(),
-  //   })) as Option[];
-
-  //   const categoryOptions: Option[] = categories?.map((el) => ({
-  //     value: el.id,
-  //     label: el.name,
-  //   })) as Option[];
-
-  //   const genderOptions: Option[] = genders?.map((el) => ({
-  //     value: el.id,
-  //     label: el.name,
-  //   })) as Option[];
+  const [createDoctor] = DoctorApi.useCreateDoctorMutation();
+  const [updateDoctor] = DoctorApi.useUpdateDoctorMutation();
 
   const classes = classNames("doctorModal").split(" ");
 
@@ -83,27 +56,83 @@ export const DoctorModal = (props: ModalProps) => {
     "closeModalBtn"
   ).split(" ");
 
-  useEffect(() => {
-    setLastName(doctor?.lastName);
-    setFirstName(doctor?.firstName);
-    setSurname(doctor?.surname);
-    setDateOfBirth(doctor?.dateOfBirth);
-    setSpecializationId(doctor?.specialization.id.toString());
-    setStatusId(doctor?.status.id.toString());
-    setAreaId(doctor?.area.id.toString());
-    setCategoryId(doctor?.category.id.toString(0));
-    setGenderId(doctor?.gender.id.toString());
-  }, [doctor]);
+  const clearFields = () => {
+    setLastName("");
+    setFirstName("");
+    setSurname("");
+    setDateOfBirth("");
+    setSpecializationId("");
+    setStatusId("");
+    setAreaId("");
+    setCategoryId("");
+    setGenderId("");
+  };
 
-  const handleSubmit = () => {};
+  useEffect(() => {
+    if (queryType === "UPDATE") {
+      setLastName(doctor?.lastName);
+      setFirstName(doctor?.firstName);
+      setSurname(doctor?.surname);
+      setDateOfBirth(doctor?.dateOfBirth);
+      setSpecializationId(doctor?.specialization?.id.toString());
+      setStatusId(doctor?.status?.id.toString());
+      setAreaId(doctor?.area?.id.toString());
+      setCategoryId(doctor?.category?.id.toString());
+      setGenderId(doctor?.gender?.id.toString());
+    } else if (queryType === "CREATE") {
+      clearFields();
+    }
+  }, [doctor, queryType]);
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    switch (queryType) {
+      case "CREATE":
+        const newDoctor: Doctor = {
+          lastName,
+          firstName,
+          surname,
+          dateOfBirth,
+          status: statuses?.find((s) => s.id === Number(statusId)),
+          area: areas?.find((a) => a.id === Number(areaId)),
+          category: categories?.find((c) => c.id === Number(categoryId)),
+          gender: genders?.find((g) => g.id === Number(genderId)),
+          specialization: specializations?.find(
+            (s) => s.id === Number(specializationId)
+          ),
+        };
+        createDoctor(newDoctor);
+        clearFields();
+        break;
+      case "UPDATE":
+        console.log(doctor);
+        const updatedDoctor: Doctor = {
+          id: doctor?.id,
+          lastName,
+          firstName,
+          surname,
+          dateOfBirth,
+          status: statuses?.find((s) => s.id === Number(statusId)),
+          area: areas?.find((a) => a.id === Number(areaId)),
+          category: categories?.find((c) => c.id === Number(categoryId)),
+          gender: genders?.find((g) => g.id === Number(genderId)),
+          specialization: specializations?.find(
+            (s) => s.id === Number(specializationId)
+          ),
+        };
+        updateDoctor(updatedDoctor);
+        break;
+    }
+    setIsOpen(false);
+  };
 
   const closeModal = () => setIsOpen(false);
 
-  const selectClasses = classNames('modalSelect').split(' ');
+  const selectClasses = classNames("modalSelect").split(" ");
 
   const ModalContent = (
     <div className={cls.modal}>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={(e) => handleSubmit(e)}>
         <div className={cls.main}>
           <div className={cls.labels}>
             <label>Фамилия</label>
@@ -117,10 +146,15 @@ export const DoctorModal = (props: ModalProps) => {
             <label>Пол</label>
           </div>
           <div className={cls.inputs}>
-            <Input onChange={setLastName} value={lastName} />
-            <Input onChange={setFirstName} value={firstName} />
-            <Input onChange={setSurname} value={surname} />
-            <Input type="date" onChange={setDateOfBirth} value={dateOfBirth} />
+            <Input onChange={setLastName} value={lastName} required />
+            <Input onChange={setFirstName} value={firstName} required />
+            <Input onChange={setSurname} value={surname} required />
+            <Input
+              type="date"
+              onChange={setDateOfBirth}
+              value={dateOfBirth}
+              required
+            />
             <Select
               data={specializations}
               selectValue={"id"}
@@ -163,72 +197,6 @@ export const DoctorModal = (props: ModalProps) => {
             />
           </div>
         </div>
-        {/* <div className={cls.field}>
-          <label>Фамилия</label>
-          <Input onChange={setLastName} value={lastName} />
-        </div>
-        <div className={cls.field}>
-          <label>Имя</label>
-          <Input onChange={setFirstName} value={firstName} />
-        </div>
-        <div className={cls.field}>
-          <label>Отчество</label>
-          <Input onChange={setSurname} value={surname} />
-        </div>
-        <div className={cls.field}>
-          <label>Дата рождения</label>
-          <Input type="date" onChange={setDateOfBirth} value={dateOfBirth} />
-        </div>
-        <div className={cls.field}>
-          <label>Специализация</label>
-          <Select
-            data={specializations}
-            selectValue={"id"}
-            selectLabel={"name"}
-            value={specializationId}
-            onChange={setSpecializationId}
-          />
-        </div>
-        <div className={cls.field}>
-          <label>Статус</label>
-          <Select
-            data={statuses}
-            selectValue={"id"}
-            selectLabel={"name"}
-            value={statusId}
-            onChange={setStatusId}
-          />
-        </div>
-        <div className={cls.field}>
-          <label>Участок</label>
-          <Select
-            data={areas}
-            selectValue={"id"}
-            selectLabel={"id"}
-            value={areaId}
-            onChange={setAreaId}
-          />
-        </div>
-        <div className={cls.field}>
-          <label>Категория</label>
-          <Select
-            data={categories}
-            selectValue={"id"}
-            selectLabel={"name"}
-            value={categoryId}
-            onChange={setCategoryId}
-          />
-        </div>
-        <div className={cls.field}>
-          <label>Пол</label>
-          <Select
-            data={genders}
-            selectValue={"id"}
-            selectLabel={"name"}
-            value={genderId}
-            onChange={setGenderId}
-          />
-        </div>*/}
         <div className={cls.buttons}>
           <Button children={"OK"} classes={okButtonClasses} type="submit" />
           <Button

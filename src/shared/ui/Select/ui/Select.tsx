@@ -24,6 +24,7 @@ export const Select = <T extends Object>(props: SelectProps<T>) => {
     value,
     selectValue,
     selectLabel,
+    ...otherProps
   } = props;
 
   const onChangeHandler = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -45,6 +46,8 @@ export const Select = <T extends Object>(props: SelectProps<T>) => {
         className={cn(...classes.map((clsName) => cls[clsName] || clsName))}
         onChange={onChangeHandler}
         value={value}
+        {...otherProps}
+        required
       >
         <option value={""} key={""}></option>
         {options.map((el, index) => {

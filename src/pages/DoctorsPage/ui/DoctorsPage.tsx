@@ -13,8 +13,6 @@ export const DoctorsPage = () => {
   const { data: doctors } = DoctorApi.useFetchAllDoctorsQuery();
   const [selectedDoctor, setSelectedDoctor] = useState<Doctor>();
   const [ deleteDoctor ] = DoctorApi.useDeleteDoctorMutation();
-  const [ createDoctor ] = DoctorApi.useCreateDoctorMutation();
-  const [ updateDoctor ] = DoctorApi.useUpdateDoctorMutation();
   const [queryType, setQueryType] = useState<QueryT | undefined>();
   const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
 
@@ -69,8 +67,8 @@ export const DoctorsPage = () => {
   }
 
   const handleUpdateButton = () => {
-    // setQueryType('UPDATE');
-    // setModalIsOpen(true)
+    setQueryType('UPDATE');
+    setModalIsOpen(true)
   }
 
   return (
