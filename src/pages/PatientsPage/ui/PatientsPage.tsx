@@ -7,6 +7,7 @@ import cls from './PatientsPage.module.scss';
 import { Button } from "../../../shared/ui/Button";
 import { TableColumn } from "../../../shared/types/TableColumn";
 import { NTable } from "../../../shared/ui/Table";
+import { PatientModal } from "../../../widgets/Modals/PatientModal";
 
 export const PatientsPage = () => {
     const { data: patients } = PatientApi.useFetchAllPatientsQuery();
@@ -64,6 +65,7 @@ export const PatientsPage = () => {
       }
 
     return (<>
+    <PatientModal isOpen={modalIsOpen} setIsOpen={setModalIsOpen} patient={selectedPatient} queryType={queryType}/>
     <div className={cls.fieldsBlock}>
           <Button children="Создать" classes={createButtonClasses} onClick={handleCreateButton}/>
           <Button

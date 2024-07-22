@@ -105,7 +105,6 @@ export const DoctorModal = (props: ModalProps) => {
         clearFields();
         break;
       case "UPDATE":
-        console.log(doctor);
         const updatedDoctor: Doctor = {
           id: doctor?.id,
           lastName,

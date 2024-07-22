@@ -1,0 +1,46 @@
+.main {
+    width: 100%;
+    display: flex;
+    column-gap: 10px;
+}
+
+.labels {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    text-align: right;
+    row-gap: 15px;
+}
+
+.inputs {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    row-gap: 14px;
+}
+
+.modal {
+    display: flex;
+    flex-direction: column;
+}
+
+.block { 
+    display: flex;
+    width: 660px;
+    flex-wrap: wrap;
+    gap: 7px;
+}
+
+.field {
+    display: flex;
+    width: 325px;
+    gap: 38px;
+    margin-bottom: 10px;
+}
+
+.buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+    margin: 10px 0px 0px 30px;
+}
