@@ -42,4 +42,4 @@ export const DoctorApi = createApi({
 export const { useFetchAllDoctorsQuery } = DoctorApi;
 export const { useUpdateDoctorMutation } = DoctorApi;
 export const { useDeleteDoctorMutation } = DoctorApi;
-export const { useCreateDoctorMutation } = DoctorApi
+export const { useCreateDoctorMutation } = DoctorApi;

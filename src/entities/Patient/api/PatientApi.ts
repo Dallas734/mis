@@ -12,8 +12,34 @@ export const PatientApi = createApi({
                 url: 'Patients'
             }),
             providesTags: ['Patient']
+        }),
+        deletePatient: builder.mutation<void, number | undefined>({
+            query: (id) => ({
+                url: `Patients/${id}`,
+                method: 'DELETE',
+            }),
+            invalidatesTags: ['Patient']
+        }),
+        createPatient: builder.mutation<Patient, Patient>({
+            query: (patient) => ({
+                url: 'Patients',
+                method: 'POST',
+                body: patient
+            }),
+            invalidatesTags: ['Patient']
+        }),
+        updatePatient: builder.mutation<Patient, Patient>({
+            query: (patient) => ({
+                url: `Patients/${patient.id}`,
+                method: 'PUT',
+                body: patient
+            }),
+            invalidatesTags: ['Patient']
         })
     })
 })
 
 export const { useFetchAllPatientsQuery } = PatientApi;
+export const { useUpdatePatientMutation } = PatientApi;
+export const { useDeletePatientMutation } = PatientApi;
+export const { useCreatePatientMutation } = PatientApi;
