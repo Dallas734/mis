@@ -5,14 +5,13 @@ import { Schedule } from '../types/Schedule'
 export const ScheduleApi = createApi({
     reducerPath: 'Schedule',
     baseQuery: baseQuery,
-    //refetchOnMountOrArgChange: true,
-    //tagTypes: ['Schedules'],
+    tagTypes: ['Schedules'],
     endpoints: (builder) => ({
         fetchAllSchedules: builder.query<Schedule[], string | undefined>({
             query: (id) => ({
                 url: `Shedules/?doctorId=${id}`
             }),
-            //providesTags: ['Schedules']
+            providesTags: ['Schedules']
         })
     })
 })

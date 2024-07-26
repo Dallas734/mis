@@ -5,38 +5,29 @@ import { Select } from "../../../shared/ui/Select";
 import cls from "./SchedulePage.module.scss";
 import { useEffect, useState } from "react";
 import classNames from "classnames";
-import { NTable } from "../../../shared/ui/Table";
 import { TimePicker } from "@mui/x-date-pickers/TimePicker";
 import { ScheduleApi } from "../../../entities/Schedule/api/ScheduleApi";
 import { Schedule } from "../../../entities/Schedule";
-import dayjs, { Dayjs } from "dayjs";
-import { useDispatch, UseDispatch } from "react-redux";
+import dayjs from "dayjs";
 
 export const SchedulePage = () => {
   const { data: areas } = AreaApi.useFetchAllAreasQuery();
   const { data: specializations } =
     SpecializationApi.useFetchAllSpecializationsQuery();
   const [doctorId, setDoctorId] = useState<string>();
-  const { data: schedules, isSuccess } =
-    ScheduleApi.useFetchAllSchedulesQuery(doctorId);
+  const { data: schedules } = ScheduleApi.useFetchAllSchedulesQuery(doctorId);
   const { data: doctors } = DoctorApi.useFetchAllDoctorsQuery();
   const [areaId, setAreaId] = useState<string>();
   const [specializationId, setSpecializationId] = useState<string>();
-  const [beginTime, setBeginTime] = useState<Dayjs | null>();
-  const [endTime, setEndTime] = useState<Dayjs | null>();
   const [curSchedule, setCurSchedule] = useState<Schedule[]>();
 
-  const dispatch = useDispatch();
   const selectClasses = classNames("Select").split(" ");
 
   useEffect(() => {
-    // console.log(schedules);
-    // dispatch(ScheduleApi.util.resetApiState());
-    if (isSuccess) {
-      setCurSchedule(schedules);
-      dispatch(ScheduleApi.util.resetApiState());
-    }
-  }, [schedules, isSuccess, dispatch]);
+    setCurSchedule(schedules);
+    console.log("ok");
+    console.log(schedules);
+  }, [doctorId, schedules]);
 
   return (
     <div className={cls.page}>
@@ -78,46 +69,50 @@ export const SchedulePage = () => {
       <table>
         <thead>
           <tr>
-            <th>День недели</th>
-            <th>Начало</th>
-            <th>Конец</th>
+            <th key={"day"}>День недели</th>
+            <th key={"begin"}>Начало</th>
+            <th key={"end"}>Конец</th>
           </tr>
         </thead>
         <tbody>
           {curSchedule?.map((s: Schedule, k) => {
             return (
-              <tr>
-                <td>
-                  <label key="label">{s.day.name}</label>
+              <tr key={k}>
+                <td key={"dayName"}>
+                  <label key="label">{s.day?.name}</label>
                 </td>
-                <td>
+                <td key={"beginTime"}>
                   <TimePicker
                     ampm={false}
-                    key="beginTime"
-                    // readOnly
+                    key={`beginTime${k}`}
                     timeSteps={{ hours: 1, minutes: 30 }}
-                    // format="HH:mm
                     value={dayjs(
                       new Date()
                         .toISOString()
                         .substring(0, new Date().toISOString().indexOf("T")) +
                         s.beginTime
                     )}
-                    //defaultValue={dayjs('2022-04-17T15:30')}
                     onChange={(e) => {
-                      console.log(curSchedule);
-                      //console.log(dayjs(new Date().toISOString().substring(0, new Date().toISOString().indexOf('T')) + s.beginTime).toISOString())
-                      // (s.beginTime = dayjs(e, "HH:mm:ss").format("HH:mm:ss"))
+                      setCurSchedule((prevState) =>
+                        prevState?.map((el) => {
+                          return el.id === s.id
+                            ? {
+                                ...el,
+                                beginTime: e
+                                  ?.format()
+                                  .slice(e?.format().indexOf("T") + 1)
+                                  .split("+")[0],
+                              }
+                            : el;
+                        })
+                      );
                     }}
-                    //value={new Date(s.beginTime)}
                   />
                 </td>
-                <td>
+                <td key={"endTime"}>
                   <TimePicker
                     ampm={false}
-                    key="endTime"
-                    // readOnly
-                    // defaultValue={dayjs(s.endTime, "HH:mm:ss")}
+                    key={`endTime${k}`}
                     timeSteps={{ hours: 1, minutes: 30 }}
                     format="HH:mm"
                     value={dayjs(
@@ -126,10 +121,21 @@ export const SchedulePage = () => {
                         .substring(0, new Date().toISOString().indexOf("T")) +
                         s.endTime
                     )}
-                    //value={new Date(s.endTime)}
-                    //   onChange={(e) =>
-                    //     (s.endTime = dayjs(e, "HH:mm:ss").format("HH:mm:ss"))
-                    //   }
+                    onChange={(e) => {
+                      setCurSchedule((prevState) =>
+                        prevState?.map((el) => {
+                          return el.id === s.id
+                            ? {
+                                ...el,
+                                endTime: e
+                                  ?.format()
+                                  .slice(e?.format().indexOf("T") + 1)
+                                  .split("+")[0],
+                              }
+                            : el;
+                        })
+                      );
+                    }}
                   />
                 </td>
               </tr>
