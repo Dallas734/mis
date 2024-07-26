@@ -11,6 +11,7 @@
 import { DoctorsPage } from '../../../../pages/DoctorsPage';
 import { LoginPage } from '../../../../pages/LoginPage';
 import { PatientsPage } from '../../../../pages/PatientsPage';
+import { SchedulePage } from '../../../../pages/ScheduldePage';
 import {
     AppRoutes,
     getRouteLogin,
@@ -45,6 +46,6 @@ export const routeConfig: Record<AppRoutes, AppRoutesProps> = {
     },
     [AppRoutes.SCHEDULE]: {
         path: getRouteSchedule(),
-        element: <></>
+        element: <SchedulePage />
     }
 };

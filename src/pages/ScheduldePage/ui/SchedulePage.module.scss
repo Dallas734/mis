@@ -1,0 +1,25 @@
+.inputs {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+.inputField {
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+}
+
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+th {
+  text-align: left;
+}
+
+td {
+  padding: 5px;
+}

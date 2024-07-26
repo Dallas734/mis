@@ -7,6 +7,8 @@ import { PatientApi } from "../../../../entities/Patient/api/PatientApi";
 import { SpecializationApi } from "../../../../entities/Specialization/api/SpecializationApi";
 import { StatusApi } from "../../../../entities/Status/api/StatusApi";
 import { UserApi } from "../../../../entities/User/api/UserApi";
+import { DayApi } from "../../../../entities/Day/api/DayApi";
+import { ScheduleApi } from "../../../../entities/Schedule/api/ScheduleApi";
 
 const rootReducer = combineReducers({
   [DoctorApi.reducerPath]: DoctorApi.reducer,
@@ -16,7 +18,9 @@ const rootReducer = combineReducers({
   [PatientApi.reducerPath]: PatientApi.reducer,
   [SpecializationApi.reducerPath]: SpecializationApi.reducer,
   [StatusApi.reducerPath]: StatusApi.reducer,
-  [UserApi.reducerPath]: UserApi.reducer
+  [UserApi.reducerPath]: UserApi.reducer,
+  [DayApi.reducerPath]: DayApi.reducer,
+  [ScheduleApi.reducerPath]: ScheduleApi.reducer
 });
 
 export const store = configureStore({
@@ -31,6 +35,8 @@ export const store = configureStore({
       .concat(SpecializationApi.middleware)
       .concat(StatusApi.middleware)
       .concat(UserApi.middleware)
+      .concat(DayApi.middleware)
+      .concat(ScheduleApi.middleware)
 });
 
 export type AppDispatch = typeof store.dispatch;
