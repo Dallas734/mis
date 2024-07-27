@@ -25,7 +25,6 @@
             background-color: var(--color-main);
         }
     }
-
 }
 
 .border-radius {
@@ -38,9 +37,7 @@
     background-image: url(../../../assets/icons/cross.svg);
 
     position: relative;
-    //padding: 5px;
     align-self: flex-end;
-    //margin-top: -15px;
 
     &:hover {
         opacity: 1;
@@ -48,7 +45,6 @@
 
     &::before, &::after {
         position: absolute;
-        
         content: ' ';
         top: 48%;
         left: 15%;
@@ -85,5 +81,8 @@
             background-color: var(--color-hover-crud-button-bg);
         }
     }
+}
 
+.saveButton {
+    width: 100px;
 }

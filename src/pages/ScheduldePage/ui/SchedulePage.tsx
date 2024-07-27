@@ -9,6 +9,8 @@ import { TimePicker } from "@mui/x-date-pickers/TimePicker";
 import { ScheduleApi } from "../../../entities/Schedule/api/ScheduleApi";
 import { Schedule } from "../../../entities/Schedule";
 import dayjs from "dayjs";
+import { Button } from "../../../shared/ui/Button";
+import { Doctor } from "../../../entities/Doctor";
 
 export const SchedulePage = () => {
   const { data: areas } = AreaApi.useFetchAllAreasQuery();
@@ -16,7 +18,9 @@ export const SchedulePage = () => {
     SpecializationApi.useFetchAllSpecializationsQuery();
   const [doctorId, setDoctorId] = useState<string>();
   const { data: schedules } = ScheduleApi.useFetchAllSchedulesQuery(doctorId);
+  const [updateSchedule] = ScheduleApi.useUpdateScheduleMutation();
   const { data: doctors } = DoctorApi.useFetchAllDoctorsQuery();
+  const [curDoctors, setCurDoctors] = useState<Doctor[]>();
   const [areaId, setAreaId] = useState<string>();
   const [specializationId, setSpecializationId] = useState<string>();
   const [curSchedule, setCurSchedule] = useState<Schedule[]>();
@@ -25,9 +29,29 @@ export const SchedulePage = () => {
 
   useEffect(() => {
     setCurSchedule(schedules);
-    console.log("ok");
-    console.log(schedules);
   }, [doctorId, schedules]);
+
+  useEffect(() => {
+    if (areaId && specializationId)
+      setCurDoctors(
+        doctors?.filter(
+          (d) =>
+            d.area?.id.toString() === areaId &&
+            d.specialization?.id.toString() === specializationId
+        )
+      );
+  }, [areaId, specializationId, doctors]);
+
+  const okButtonClasses = classNames(
+    "crud",
+    "border-radius",
+    "okButton",
+    "saveButton"
+  ).split(" ");
+
+  const handleSaveClick = () => {
+    updateSchedule(curSchedule);
+  };
 
   return (
     <div className={cls.page}>
@@ -57,7 +81,7 @@ export const SchedulePage = () => {
         <div className={cls.inputField}>
           <label>Врач</label>
           <Select
-            data={doctors}
+            data={curDoctors}
             selectValue={"id"}
             selectLabel={"fullName"}
             value={doctorId}
@@ -114,7 +138,6 @@ export const SchedulePage = () => {
                     ampm={false}
                     key={`endTime${k}`}
                     timeSteps={{ hours: 1, minutes: 30 }}
-                    format="HH:mm"
                     value={dayjs(
                       new Date()
                         .toISOString()
@@ -143,6 +166,15 @@ export const SchedulePage = () => {
           })}
         </tbody>
       </table>
+      {doctorId ? (
+        <Button
+          onClick={handleSaveClick}
+          classes={okButtonClasses}
+          children={"Сохранить"}
+        />
+      ) : (
+        <></>
+      )}
     </div>
   );
 };

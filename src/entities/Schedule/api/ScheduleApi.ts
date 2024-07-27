@@ -12,8 +12,17 @@ export const ScheduleApi = createApi({
                 url: `Shedules/?doctorId=${id}`
             }),
             providesTags: ['Schedules']
+        }),
+        updateSchedule: builder.mutation<void, Schedule[] | undefined>({
+            query: (schedules) => ({
+                url: 'Shedules',
+                method: 'PUT',
+                body: schedules
+            }),
+            invalidatesTags: ['Schedules']
         })
     })
 })
 
 export const { useFetchAllSchedulesQuery } = ScheduleApi;
+export const { useUpdateScheduleMutation } = ScheduleApi;
