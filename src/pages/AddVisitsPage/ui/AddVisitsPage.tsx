@@ -11,7 +11,7 @@ import { PatientApi } from "../../../entities/Patient/api/PatientApi";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import dayjs from "dayjs";
 import { Visit } from "../../../entities/Visit";
-import { VisitsApi } from "../../../entities/Visit/api/VisitApi";
+import { VisitsApi } from "../../../entities/Visit/api/VisitsApi";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell, { tableCellClasses } from "@mui/material/TableCell";
@@ -19,7 +19,7 @@ import Paper from "@mui/material/Paper";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-import TablePagination from "@mui/material/TablePagination";
+import { Button } from "../../../shared/ui/Button";
 
 export const AddVisitsPage = () => {
   const { data: areas } = AreaApi.useFetchAllAreasQuery();
@@ -27,6 +27,8 @@ export const AddVisitsPage = () => {
     SpecializationApi.useFetchAllSpecializationsQuery();
   const { data: doctors } = DoctorApi.useFetchAllDoctorsQuery();
   const { data: patients } = PatientApi.useFetchAllPatientsQuery();
+  const [addVisit] = VisitsApi.useCreateVisitMutation();
+  const [deleteVisit] = VisitsApi.useDeleteVisitMutation();
   const [curDoctors, setCurDoctors] = useState<Doctor[]>();
   const [curPatients, setCurPatients] = useState<Patient[]>();
   const [areaId, setAreaId] = useState<string>();
@@ -41,7 +43,7 @@ export const AddVisitsPage = () => {
     date: selectedDate,
   });
   const [activeId, setActiveId] = useState<number>();
-  const [selectedElement, setSelectedElement] = useState<Visit>();
+  const [selectedElement, setSelectedElement] = useState<Visit | undefined>();
 
   useEffect(() => {
     if (areaId) {
@@ -61,16 +63,36 @@ export const AddVisitsPage = () => {
     }
   }, [doctors, areaId, specializationId]);
 
-  const handleChangePage = (event: React.MouseEvent<HTMLButtonElement> | null, newpage: number) => { 
-    // setpg(newpage); 
-} 
-
-const handleChangeRowsPerPage = (event: React.MouseEvent<HTMLButtonElement> | null) => { 
-    // setrpg(parseInt(event.target.value, 10)); 
-    // setpg(0); 
-} 
-
   const selectClasses = classNames("Select").split(" ");
+
+  const createButtonClasses = classNames(
+    "icon",
+    "crud",
+    "border-radius",
+    "createButton"
+  ).split(" ");
+
+  const deleteButtonClasses = classNames(
+    "icon",
+    "crud",
+    "border-radius",
+    "deleteButton"
+  ).split(" ");
+
+  const handleCreateButton = () => {
+    const newVisit: Visit = {
+      doctor: doctors?.find((d) => d.id === Number(doctorId)),
+      patient: patients?.find((p) => p.id === Number(patientId)),
+      dateT: selectedDate?.format("YYYY-MM-DD"),
+      timeT: selectedElement?.timeT,
+    };
+    console.log(newVisit);
+    addVisit(newVisit);
+  };
+
+  const handleDeleteButton = () => {
+    deleteVisit(selectedElement?.id);
+  };
 
   return (
     <div className={cls.page}>
@@ -82,7 +104,12 @@ const handleChangeRowsPerPage = (event: React.MouseEvent<HTMLButtonElement> | nu
             selectValue={"id"}
             selectLabel={"id"}
             value={areaId}
-            onChange={setAreaId}
+            onChange={(el) => {
+              setAreaId(el);
+              setSpecializationId("");
+              setDoctorId("");
+              setPatientId("");
+            }}
             classes={selectClasses}
           />
         </div>
@@ -93,7 +120,10 @@ const handleChangeRowsPerPage = (event: React.MouseEvent<HTMLButtonElement> | nu
             selectValue={"id"}
             selectLabel={"name"}
             value={specializationId}
-            onChange={setSpecializationId}
+            onChange={(el) => {
+              setSpecializationId(el);
+              setDoctorId("");
+            }}
             classes={selectClasses}
           />
         </div>
@@ -126,60 +156,106 @@ const handleChangeRowsPerPage = (event: React.MouseEvent<HTMLButtonElement> | nu
           onChange={(newValue) => setSelectedDate(newValue)}
         />
       </div>
-      <TableContainer
-        component={Paper}
-        style={{ height: "100%", width: "100%" }}
-      >
-        <Table stickyHeader>
-          <TableHead>
-            <TableRow>
-              <TableCell
-                sx={{
-                  [`&.${tableCellClasses.head}`]: {
-                    backgroundColor: "#afd5af",
-                  },
-                }}
-              >
-                Время
-              </TableCell>
-              <TableCell
-                sx={{
-                  [`&.${tableCellClasses.head}`]: {
-                    backgroundColor: "#afd5af",
-                  },
-                }}
-              >
-                Статус
-              </TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {talons?.map((el: Visit, index) => (
-              <TableRow
-                hover
-                key={index}
-                sx={{
-                  "&:nth-of-type(odd)": {
-                    backgroundColor: "fff6e7",
-                  },
-                }}
-                onClick={() => {
-                  setActiveId(index);
-                  if (setSelectedElement) setSelectedElement(el);
-                }}
-                className={activeId === index ? cls.active : el.visitStatus ? cls.isTaken : ""}
-              >
-                <TableCell>
-                  <>{el.timeT}</>
+      <div className={cls.bodyPage}>
+        <TableContainer
+          component={Paper}
+          style={{ height: "100%", width: "70%" }}
+        >
+          <Table stickyHeader>
+            <TableHead>
+              <TableRow>
+                <TableCell
+                  sx={{
+                    [`&.${tableCellClasses.head}`]: {
+                      backgroundColor: "#afd5af",
+                    },
+                  }}
+                >
+                  Время
                 </TableCell>
-                <TableCell>
-                  <>{el.visitStatus ? el.visitStatus.name : ""}</>
+                <TableCell
+                  sx={{
+                    [`&.${tableCellClasses.head}`]: {
+                      backgroundColor: "#afd5af",
+                    },
+                  }}
+                >
+                  Статус
                 </TableCell>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+            </TableHead>
+            <TableBody>
+              {talons?.map((el: Visit, index) => (
+                <TableRow
+                  hover
+                  key={index}
+                  sx={{
+                    "&:nth-of-type(odd)": {
+                      backgroundColor: "fff6e7",
+                    },
+                  }}
+                  onClick={() => {
+                    setActiveId(index);
+                    if (setSelectedElement) setSelectedElement(el);
+                  }}
+                  className={
+                    activeId === index
+                      ? cls.active
+                      : el.visitStatus
+                      ? cls.isTaken
+                      : ""
+                  }
+                >
+                  <TableCell>
+                    <>{el.timeT}</>
+                  </TableCell>
+                  <TableCell>
+                    <>{el.visitStatus ? el.visitStatus.name : ""}</>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+        <div className={cls.sideBox}>
+          <label>Информация о записи</label>
+          <br />
+          <label>Дата: {selectedElement?.dateT}</label>
+          <br />
+          <label>Время: {selectedElement?.timeT}</label>
+          <br />
+          <label>
+            Врач:{" "}
+            {selectedElement?.doctor ? selectedElement?.doctor.fullName : ""}
+          </label>
+          <br />
+          <label>
+            Пациент:{" "}
+            {selectedElement?.patient ? selectedElement?.patient.fullName : ""}
+          </label>
+          <div className={cls.buttons}>
+            <Button
+              children="Записать"
+              classes={createButtonClasses}
+              onClick={handleCreateButton}
+              disabled={
+                selectedElement &&
+                patientId &&
+                doctorId &&
+                selectedElement.visitStatus?.id !== 1
+                  ? false
+                  : true
+              }
+            />
+            <Button
+              children="Удалить"
+              classes={deleteButtonClasses}
+              disabled={selectedElement?.visitStatus?.id === 1 ? false : true}
+              onClick={handleDeleteButton}
+            />
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

@@ -20,26 +20,8 @@
   width: 99%;
 }
 
-th {
-  text-align: left;
-  background-color: "#afd5af";
-}
-
-td {
-  padding: 5px;
-}
-
 .dateWidth {
   width: 50px;
-}
-
-table {
-  height: 100px;
-}
-
-.headStyle {
-  background-color: var(--color-main);
-  color: white;
 }
 
 .active {
@@ -48,4 +30,28 @@ table {
 
 .isTaken {
   background-color: red !important;
+}
+
+.bodyPage {
+  display: flex;
+  flex-direction: row;
+  height: 85%;
+}
+
+.sideBox {
+  float: left;
+  //position: relative;
+  height: 150px;
+  margin: 1%;
+  border: 1px solid green;
+  width: 30%;
+  border-radius: 10px;
+  padding: 5px;
+}
+
+.buttons {
+    display: flex;
+    gap: 10px;
+    flex-direction: row;
+    margin-top: 3px;
 }

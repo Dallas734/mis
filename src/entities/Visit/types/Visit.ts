@@ -5,13 +5,13 @@ import { Doctor } from "../../Doctor";
 import { VisitStatus } from "../../VisitStatus";
 
 export interface Visit {
-    id: number,
-    patient: Patient,
-    diagnosis: Diagnosis,
-    recipe: string,
-    procedure: Procedure,
-    dateT: string,
-    timeT: string,
-    doctor: Doctor,
-    visitStatus: VisitStatus
+    id?: number,
+    patient?: Patient,
+    diagnosis?: Diagnosis,
+    recipe?: string,
+    procedure?: Procedure,
+    dateT?: string,
+    timeT?: string,
+    doctor?: Doctor,
+    visitStatus?: VisitStatus
 }

@@ -7,7 +7,6 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import cls from "./Table.module.scss";
 import { TableColumn } from "../../../types/TableColumn";
-import { TableRowsOutlined } from "@mui/icons-material";
 import { TableSortLabel } from "@mui/material";
 import { useState, useEffect } from "react";
 import { Order } from "../../../types/Order";

@@ -9,7 +9,7 @@ import { StatusApi } from "../../../../entities/Status/api/StatusApi";
 import { UserApi } from "../../../../entities/User/api/UserApi";
 import { DayApi } from "../../../../entities/Day/api/DayApi";
 import { ScheduleApi } from "../../../../entities/Schedule/api/ScheduleApi";
-import { VisitsApi } from "../../../../entities/Visit/api/VisitApi";
+import { VisitsApi } from "../../../../entities/Visit/api/VisitsApi";
 import { DiagnosisApi } from "../../../../entities/Diagnosis/api/DiagnosisApi";
 
 const rootReducer = combineReducers({
