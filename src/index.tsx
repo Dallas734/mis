@@ -6,6 +6,7 @@ import { StoreProvider } from "./app/providers/StoreProvider";
 import { AuthProvider } from "./app/providers/AuthProvider";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import "dayjs/locale/ru";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -13,7 +14,7 @@ const root = ReactDOM.createRoot(
 root.render(
   <BrowserRouter>
     <StoreProvider>
-      <LocalizationProvider dateAdapter={AdapterDayjs}> 
+      <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="ru"> 
         <AuthProvider>
           <App />
         </AuthProvider>

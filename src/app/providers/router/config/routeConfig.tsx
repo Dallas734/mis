@@ -8,6 +8,7 @@
 // import { UsersPage } from '@/pages/UsersPage';
 // import { VeterinariansPage } from '@/pages/VeterinariansPage';
 // import { VisitPage } from '@/pages/VisitPage';
+import { AddVisitsPage } from '../../../../pages/AddVisitsPage';
 import { DoctorsPage } from '../../../../pages/DoctorsPage';
 import { LoginPage } from '../../../../pages/LoginPage';
 import { PatientsPage } from '../../../../pages/PatientsPage';
@@ -42,7 +43,7 @@ export const routeConfig: Record<AppRoutes, AppRoutesProps> = {
     },
     [AppRoutes.ADD_VISIT]: {
         path: getRouteAddVisit(),
-        element: <></>
+        element: <AddVisitsPage />
     },
     [AppRoutes.SCHEDULE]: {
         path: getRouteSchedule(),

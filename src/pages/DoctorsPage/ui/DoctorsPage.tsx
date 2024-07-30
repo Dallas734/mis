@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { DoctorApi } from "../../../entities/Doctor/api/DoctorApi";
 import { NTable } from "../../../shared/ui/Table";
 import { TableColumn } from "../../../shared/types/TableColumn";

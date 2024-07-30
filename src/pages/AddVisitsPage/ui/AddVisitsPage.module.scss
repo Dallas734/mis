@@ -1,0 +1,51 @@
+@import "../../../shared/styles/index.scss";
+
+.inputs {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+.inputField {
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+}
+
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  height: 700px;
+  width: 99%;
+}
+
+th {
+  text-align: left;
+  background-color: "#afd5af";
+}
+
+td {
+  padding: 5px;
+}
+
+.dateWidth {
+  width: 50px;
+}
+
+table {
+  height: 100px;
+}
+
+.headStyle {
+  background-color: var(--color-main);
+  color: white;
+}
+
+.active {
+  background-color: var(--color-select-table) !important;
+}
+
+.isTaken {
+  background-color: red !important;
+}

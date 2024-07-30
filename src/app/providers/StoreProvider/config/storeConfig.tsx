@@ -9,6 +9,8 @@ import { StatusApi } from "../../../../entities/Status/api/StatusApi";
 import { UserApi } from "../../../../entities/User/api/UserApi";
 import { DayApi } from "../../../../entities/Day/api/DayApi";
 import { ScheduleApi } from "../../../../entities/Schedule/api/ScheduleApi";
+import { VisitsApi } from "../../../../entities/Visit/api/VisitApi";
+import { DiagnosisApi } from "../../../../entities/Diagnosis/api/DiagnosisApi";
 
 const rootReducer = combineReducers({
   [DoctorApi.reducerPath]: DoctorApi.reducer,
@@ -20,13 +22,17 @@ const rootReducer = combineReducers({
   [StatusApi.reducerPath]: StatusApi.reducer,
   [UserApi.reducerPath]: UserApi.reducer,
   [DayApi.reducerPath]: DayApi.reducer,
-  [ScheduleApi.reducerPath]: ScheduleApi.reducer
+  [ScheduleApi.reducerPath]: ScheduleApi.reducer,
+  [VisitsApi.reducerPath]: VisitsApi.reducer,
+  [DiagnosisApi.reducerPath]: DiagnosisApi.reducer
 });
 
 export const store = configureStore({
   reducer: rootReducer,
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware()
+    getDefaultMiddleware(
+      {serializableCheck: false}
+    )
       .concat(DoctorApi.middleware)
       .concat(AreaApi.middleware)
       .concat(CategoryApi.middleware)
@@ -37,6 +43,8 @@ export const store = configureStore({
       .concat(UserApi.middleware)
       .concat(DayApi.middleware)
       .concat(ScheduleApi.middleware)
+      .concat(VisitsApi.middleware)
+      .concat(DiagnosisApi.middleware)
 });
 
 export type AppDispatch = typeof store.dispatch;
