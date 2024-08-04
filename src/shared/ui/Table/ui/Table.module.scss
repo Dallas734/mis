@@ -1,10 +1,14 @@
-@import '../../../../shared/styles/index.scss';
+@import "../../../../shared/styles/index.scss";
 
 .headStyle {
-    background-color: var(--color-main);
-    color: white;
+  background-color: var(--color-main);
+  color: white;
 }
 
 .active {
-    background-color: var(--color-select-table) !important;
-  }
+  background-color: var(--color-select-table) !important;
+}
+
+.body {
+    height: 100%;
+}

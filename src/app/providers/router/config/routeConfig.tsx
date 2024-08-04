@@ -10,7 +10,9 @@
 // import { VisitPage } from '@/pages/VisitPage';
 import { AddVisitsPage } from '../../../../pages/AddVisitsPage';
 import { DoctorsPage } from '../../../../pages/DoctorsPage';
+import { DoctorTalonsPage } from '../../../../pages/DoctorTalonsPage';
 import { LoginPage } from '../../../../pages/LoginPage';
+import { PatientCardPage } from '../../../../pages/PatientCardPage';
 import { PatientsPage } from '../../../../pages/PatientsPage';
 import { SchedulePage } from '../../../../pages/ScheduldePage';
 import {
@@ -20,7 +22,9 @@ import {
     getRoutePatients,
     getRouteAddVisit,
     getRouteSchedule,
-    getRouteMain
+    getRouteMain,
+    getRoutePatientCard,
+    getRouteDoctorTalons
 } from '../../../../shared/const/router';
 import { AppRoutesProps } from '../../../../shared/types/AppRouter';
 
@@ -43,10 +47,18 @@ export const routeConfig: Record<AppRoutes, AppRoutesProps> = {
     },
     [AppRoutes.ADD_VISIT]: {
         path: getRouteAddVisit(),
-        element: <AddVisitsPage />
+        element: <AddVisitsPage  />
     },
     [AppRoutes.SCHEDULE]: {
         path: getRouteSchedule(),
         element: <SchedulePage />
+    },
+    [AppRoutes.PATIENT_CARD]: {
+        path: getRoutePatientCard(),
+        element: <PatientCardPage />
+    },
+    [AppRoutes.DOCTOR_TALONS]: {
+        path: getRouteDoctorTalons(),
+        element: <DoctorTalonsPage />
     }
 };

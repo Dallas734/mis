@@ -18,13 +18,15 @@ const getProperty = (
   arr: Object[]
 ) => {
   type P = keyof typeof el;
-  var newProperty = el[indexes[i] as P];
+  var newProperty = el ? el[indexes[i] as P] : "";
 
-  if (indexes[i + 1] !== undefined) {
-    i++;
-    getProperty(indexes, i, newProperty, arr);
-  } else {
-    arr[0] = newProperty;
+  if (newProperty !== "") {
+    if (indexes[i + 1] !== undefined) {
+      i++;
+      getProperty(indexes, i, newProperty, arr);
+    } else {
+      arr[0] = newProperty;
+    }
   }
 };
 
@@ -160,67 +162,72 @@ export const NTable = <T extends Object>(props: TableProps<T>) => {
   };
 
   return (
-    <TableContainer component={Paper} style={{ height: "100%", width: "100%" }}>
-      <Table stickyHeader>
-        <TableHead>
-          <TableRow>
-            {head.map((el, index) => (
-              <TableCell
-                key={index}
-                sx={{
-                  [`&.${tableCellClasses.head}`]: {
-                    backgroundColor: "#afd5af",
-                  },
-                }}
-              >
-                <TableSortLabel
-                  active={orderBy === el.index ? true : false}
-                  direction={sortDirection}
-                  onClick={() => {
-                    sortTableFunc(
-                      head[index].index,
-                      head[index].sortMethod,
-                      index
-                    );
-                    handleSortRequest(el);
+    <div className={cls.body}>
+      <TableContainer
+        component={Paper}
+        style={{ height: "100%", width: "100%" }}
+      >
+        <Table stickyHeader>
+          <TableHead>
+            <TableRow>
+              {head.map((el, index) => (
+                <TableCell
+                  key={index}
+                  sx={{
+                    [`&.${tableCellClasses.head}`]: {
+                      backgroundColor: "#afd5af",
+                    },
                   }}
                 >
-                  {el.name}
-                </TableSortLabel>
-              </TableCell>
-            ))}
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {viewData.map((el: T, index) => (
-            <TableRow
-              hover
-              key={index}
-              sx={{
-                "&:nth-of-type(odd)": {
-                  backgroundColor: "fff6e7",
-                },
-              }}
-              onClick={() => {
-                setActiveId(index);
-                if (setSelectedElement) setSelectedElement(el);
-              }}
-              className={activeId === index ? cls.active : ""}
-            >
-              {head.map((column) => {
-                const indexes = column.index.split(".");
-                let arr: Object[] = [];
-                getProperty(indexes, 0, el, arr);
-                return (
-                  <TableCell key={indexes[0]}>
-                    <>{arr[0]}</>
-                  </TableCell>
-                );
-              })}
+                  <TableSortLabel
+                    active={orderBy === el.index ? true : false}
+                    direction={sortDirection}
+                    onClick={() => {
+                      sortTableFunc(
+                        head[index].index,
+                        head[index].sortMethod,
+                        index
+                      );
+                      handleSortRequest(el);
+                    }}
+                  >
+                    {el.name}
+                  </TableSortLabel>
+                </TableCell>
+              ))}
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+          </TableHead>
+          <TableBody>
+            {viewData.map((el: T, index) => (
+              <TableRow
+                hover
+                key={index}
+                sx={{
+                  "&:nth-of-type(odd)": {
+                    backgroundColor: "fff6e7",
+                  },
+                }}
+                onClick={() => {
+                  setActiveId(index);
+                  if (setSelectedElement) setSelectedElement(el);
+                }}
+                className={activeId === index ? cls.active : ""}
+              >
+                {head.map((column) => {
+                  const indexes = column.index.split(".");
+                  let arr: Object[] = [];
+                  getProperty(indexes, 0, el, arr);
+                  return (
+                    <TableCell key={indexes[0]}>
+                      <>{arr[0]}</>
+                    </TableCell>
+                  );
+                })}
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </div>
   );
 };

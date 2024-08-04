@@ -24,6 +24,13 @@ export const VisitsApi = createApi({
       },
       providesTags: ["Visits"]
     }),
+    getPatientCard: builder.query<Visit[], string | undefined>({
+        query: (patientId) => ({
+            url: `Patients/card?patientId=${patientId}`,
+            method: 'GET'
+        }),
+        providesTags: ["Visits"]
+    }),
     deleteVisit: builder.mutation<void, number | undefined>({
       query: (id) => ({
         url: `Visits/${id}`,

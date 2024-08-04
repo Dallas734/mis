@@ -5,6 +5,8 @@ export enum AppRoutes {
     SCHEDULE = 'schedule',
     PATIENTS = 'patients',
     ADD_VISIT = 'add_visit',
+    PATIENT_CARD = 'patientCard',
+    DOCTOR_TALONS = 'doctorTalons'
 }
 
 export const getRouteLogin = () => '/login'
@@ -13,6 +15,8 @@ export const getRouteDoctors = () => '/doctors'
 export const getRouteSchedule = () => '/schedule'
 export const getRoutePatients = () => '/patients'
 export const getRouteAddVisit = () => '/add_visit'
+export const getRoutePatientCard = () => '/patientCard'
+export const getRouteDoctorTalons = () => '/doctorTalons'
 // export const getRoutePets = () => '/main/pets';
 // export const getRouteOwners = () => '/main/owners';
 // export const getRouteVeterinarians = () => '/main/veterinarians';

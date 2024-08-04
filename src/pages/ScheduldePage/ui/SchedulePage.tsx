@@ -40,6 +40,7 @@ export const SchedulePage = () => {
             d.specialization?.id.toString() === specializationId
         )
       );
+      if (areaId === "" || specializationId === "") setCurDoctors(undefined);
   }, [areaId, specializationId, doctors]);
 
   const okButtonClasses = classNames(
