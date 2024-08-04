@@ -20,14 +20,31 @@ import { useState } from "react";
 import cls from "./NavBar.module.scss";
 import { UserApi } from "../../../entities/User/api/UserApi";
 import { User } from "../../../entities/User";
+import { Button } from "../../../shared/ui/Button";
+import classNames from "classnames";
+import { useNavigate } from "react-router-dom";
 
 export const NavBar = () => {
   const [isCollapsed, setIsCollaspsed] = useState<boolean>(false);
   const { data: user } = UserApi.useIsAuthQuery();
 
+  const [logoff] = UserApi.useLogoffMutation();
+  
+  const navigate = useNavigate();
+
   const setCollapse = () => {
     isCollapsed ? setIsCollaspsed(false) : setIsCollaspsed(true);
   };
+
+  const LeaveClassesButton = classNames("leaveButton").split(" ");
+
+  const handleLeave = () => {
+    const handle = async () => {
+      const response = await logoff();
+      if(!response.error) navigate('/'); 
+    }
+    handle();
+  }
 
   return (
     <div style={{ display: "flex", height: "100vh" }}>
@@ -83,6 +100,11 @@ export const NavBar = () => {
           ) : (
             <></>
           )}
+          <Button
+            classes={LeaveClassesButton}
+            children={"Выйти"}
+            onClick={() => { handleLeave()}}
+          />
         </Menu>
       </Sidebar>
     </div>

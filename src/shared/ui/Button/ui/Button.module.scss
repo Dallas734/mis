@@ -86,3 +86,22 @@
 .saveButton {
     width: 100px;
 }
+
+.leaveButton {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    border: none;
+    cursor: pointer;
+    text-align: center;
+    &:hover {
+        filter: inset brightness(1.2);
+        background-color: var(--color-main);
+    }
+
+    &::after {
+        background-image: url(../../../assets/icons/leave.svg);
+        @include square(20px);
+    }
+        //background-image: url(../../../assets/icons/leave.svg);
+}

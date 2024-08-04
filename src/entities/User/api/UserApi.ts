@@ -22,6 +22,13 @@ export const UserApi = createApi({
       query: () => ({ url: "isauthenticated", method: "GET" }),
       providesTags: ["User"]
     }),
+    logoff: builder.mutation<void, void>({
+      query: () => ({
+        url: "logoff",
+        method: "POST",
+        credentials: "include"
+      })
+    })
   }),
 });
 
