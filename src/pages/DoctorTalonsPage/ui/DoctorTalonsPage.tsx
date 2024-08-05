@@ -175,7 +175,7 @@ export const DoctorTalonsPage = () => {
               onChange={(e) => setRecipe(e.target.value)}
               rows={4}
               placeholder="Рецепт"
-              style={{ marginBottom: "10px" }}
+              style={{ marginBottom: "10px", resize: "none", height: '150px' }}
             />
           </div>
           <div className={cls.buttons}>
