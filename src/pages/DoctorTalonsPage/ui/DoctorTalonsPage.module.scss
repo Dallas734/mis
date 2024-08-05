@@ -1,0 +1,52 @@
+.inputs {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+.inputField {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-top: 5px;
+}
+
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  height: 700px;
+  width: 99%;
+}
+
+.bodyPage {
+  display: flex;
+  flex-direction: row;
+  height: 90%;
+}
+
+.sideBox {
+    float: left;
+    //position: relative;
+    height: 360px;
+    margin: 1%;
+    border: 1px solid green;
+    width: 30%;
+    border-radius: 10px;
+    padding: 5px;
+  }
+  
+  .buttons {
+      display: flex;
+      gap: 10px;
+      flex-direction: row;
+      margin-top: 3px;
+  }
+
+  .active {
+    background-color: var(--color-select-table) !important;
+  }
+  
+  .isWait {
+    background-color: rgb(0, 255, 225) !important;
+  }

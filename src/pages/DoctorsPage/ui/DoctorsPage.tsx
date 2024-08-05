@@ -72,7 +72,7 @@ export const DoctorsPage = () => {
   };
 
   return (
-    <>
+    <div className={cls.body}>
       <DoctorModal
         isOpen={modalIsOpen}
         setIsOpen={setModalIsOpen}
@@ -105,6 +105,6 @@ export const DoctorsPage = () => {
           setSelectedElement={setSelectedDoctor}
         ></NTable>
       </div>
-    </>
+    </div>
   );
 };

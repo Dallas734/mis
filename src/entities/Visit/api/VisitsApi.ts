@@ -26,7 +26,7 @@ export const VisitsApi = createApi({
     }),
     getPatientCard: builder.query<Visit[], string | undefined>({
         query: (patientId) => ({
-            url: `Patients/card?patientId=${patientId}`,
+            url: `Visits/card?patientId=${patientId}`,
             method: 'GET'
         }),
         providesTags: ["Visits"]
