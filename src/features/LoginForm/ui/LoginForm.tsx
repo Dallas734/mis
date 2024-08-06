@@ -1,20 +1,19 @@
-import { useState, useCallback, useContext } from "react";
+import { useState, useCallback } from "react";
 import cls from "./LoginForm.module.scss";
 import { Input } from "../../../shared/ui/Input";
 import { useNavigate } from "react-router-dom";
 import classNames from "classnames";
 import { Button } from "../../../shared/ui/Button";
 import { UserApi } from "../../../entities/User/api/UserApi";
-import { LoginScheme, ResponseScheme } from "../../../entities/User";
-import { AuthContext } from "../../../shared/context/IsAuthContext";
+import { LoginScheme } from "../../../entities/User";
+import { Link } from "react-router-dom";
 
 export const LoginForm = () => {
   const [auth, { error }] = UserApi.useAuthMutation();
   const [username, setUsername] = useState<string>("vernidub66@gmail.com");
   const [password, setPassword] = useState<string>("Baguvix_160403");
   const [rememberMe, setRememberMe] = useState<boolean>(false);
-
-const { isAuth, setIsAuth } = useContext(AuthContext)
+  const [showPassword, setShowPassword] = useState<boolean>(false);
 
   const navigate = useNavigate();
 
@@ -43,16 +42,13 @@ const { isAuth, setIsAuth } = useContext(AuthContext)
       };
 
       const { data } = await auth(loginScheme);
-      setIsAuth && setIsAuth(true);
-      if (data?.responseUser)
-        navigate('/main');
-      //console.log(isAuth)
-
-      //console.log(data?.responseUser);
+      if (data?.responseUser) navigate("/main");
     } catch (error) {
       console.log(error);
     }
   };
+
+  const EyeIconClasses = classNames("eye-icon").split(" ");
 
   return (
     <form className={cls.LoginForm}>
@@ -64,13 +60,21 @@ const { isAuth, setIsAuth } = useContext(AuthContext)
         onChange={setUsername}
         value={username}
       />
-      <Input
-        type="password"
-        classes={InputClassesPassword}
-        placeholder={"Пароль"}
-        onChange={setPassword}
-        value={password}
-      />
+      <div className={cls.password}>
+        <Input
+          type={showPassword ? "text" : "password"}
+          classes={InputClassesPassword}
+          placeholder={"Пароль"}
+          onChange={setPassword}
+          value={password}
+        />
+        <Button
+          classes={EyeIconClasses}
+          onClick={() =>
+            showPassword ? setShowPassword(false) : setShowPassword(true)
+          }
+        />
+      </div>
       <label className={cls.inputWrapper} htmlFor="remember">
         <Input
           id="remember"
@@ -82,15 +86,14 @@ const { isAuth, setIsAuth } = useContext(AuthContext)
         Запомнить меня
       </label>
       {error && (
-                    <label className={cls.red}>
-                        Вы ввели неверный логин или пароль
-                        </label>
-                )}
+        <label className={cls.red}>Вы ввели неверный логин или пароль</label>
+      )}
       <Button
         classes={LoginButtonClasses}
         children={"Войти"}
         onClick={handleSubmitForm}
       />
+      <Link to={"/register"}>На страницу регистрации</Link>
     </form>
   );
 };

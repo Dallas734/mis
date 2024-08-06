@@ -3,6 +3,8 @@ import { baseQuery } from "../../../shared/RTKQuery/query";
 import { LoginScheme } from "../types/LoginScheme";
 import { ResponseScheme } from "../types/ResponseScheme";
 import { User } from "../types/User";
+import { RegisterResponse } from "../types/RegisterResponse";
+import { RegisterScheme } from "../types/RegisterScheme";
 
 export const UserApi = createApi({
   reducerPath: "Auth",
@@ -17,6 +19,14 @@ export const UserApi = createApi({
         credentials: "include",
       }),
       invalidatesTags: ['User']
+    }),
+    register: builder.mutation<RegisterResponse, RegisterScheme>({
+      query: (registerScheme) => ({
+        url: "register",
+        method: "POST",
+        body: registerScheme,
+        credentials: "include"
+      })
     }),
     isAuth: builder.query<User, void>({
       query: () => ({ url: "isauthenticated", method: "GET" }),

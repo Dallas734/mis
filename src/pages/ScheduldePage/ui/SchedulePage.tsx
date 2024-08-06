@@ -11,6 +11,7 @@ import { Schedule } from "../../../entities/Schedule";
 import dayjs from "dayjs";
 import { Button } from "../../../shared/ui/Button";
 import { Doctor } from "../../../entities/Doctor";
+import { SPECS } from "../../../shared/types/constants";
 
 export const SchedulePage = () => {
   const { data: areas } = AreaApi.useFetchAllAreasQuery();
@@ -32,15 +33,28 @@ export const SchedulePage = () => {
   }, [doctorId, schedules]);
 
   useEffect(() => {
-    if (areaId && specializationId)
-      setCurDoctors(
-        doctors?.filter(
-          (d) =>
-            d.area?.id.toString() === areaId &&
-            d.specialization?.id.toString() === specializationId
-        )
-      );
-      if (areaId === "" || specializationId === "") setCurDoctors(undefined);
+    if (specializationId) {
+      if (areaId) {
+        setCurDoctors(
+          doctors?.filter(
+            (d) =>
+              d.area?.id.toString() === areaId &&
+              d.specialization?.id.toString() === specializationId
+          )
+        );
+      } else {
+        setCurDoctors(
+          doctors?.filter(
+            (d) => d.specialization?.id.toString() === specializationId
+          )
+        );
+      }
+    }
+
+    if (specializationId === "") {
+      setCurDoctors(undefined);
+      setDoctorId("");
+    }
   }, [areaId, specializationId, doctors]);
 
   const okButtonClasses = classNames(
@@ -58,6 +72,21 @@ export const SchedulePage = () => {
     <div className={cls.page}>
       <div className={cls.inputs}>
         <div className={cls.inputField}>
+          <div className={cls.inputField}>
+            <label>Специальность</label>
+            <Select
+              data={specializations}
+              selectValue={"id"}
+              selectLabel={"name"}
+              value={specializationId}
+              onChange={(e) => {
+                setSpecializationId(e);
+                setAreaId("");
+                setDoctorId("");
+              }}
+              classes={selectClasses}
+            />
+          </div>
           <label>Участок</label>
           <Select
             data={areas}
@@ -66,17 +95,7 @@ export const SchedulePage = () => {
             value={areaId}
             onChange={setAreaId}
             classes={selectClasses}
-          />
-        </div>
-        <div className={cls.inputField}>
-          <label>Специальность</label>
-          <Select
-            data={specializations}
-            selectValue={"id"}
-            selectLabel={"name"}
-            value={specializationId}
-            onChange={setSpecializationId}
-            classes={selectClasses}
+            disabled={specializationId === SPECS.AREA_DOCTOR_ID ? false : true}
           />
         </div>
         <div className={cls.inputField}>

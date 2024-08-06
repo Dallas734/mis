@@ -20,7 +20,6 @@ export const PatientCardPage = () => {
   const selectClasses = classNames("Select").split(" ");
 
   useEffect(() => {
-    console.log(areaId);
     if (areaId)
       setCurPatients(patients?.filter((p) => p.area?.id.toString() === areaId));
     if (areaId === "") setCurPatients(undefined);

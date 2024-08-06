@@ -20,6 +20,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import { Button } from "../../../shared/ui/Button";
+import { SPECS } from "../../../shared/types/constants";
 
 export const AddVisitsPage = () => {
   const { data: areas } = AreaApi.useFetchAllAreasQuery();
@@ -31,7 +32,8 @@ export const AddVisitsPage = () => {
   const [deleteVisit] = VisitsApi.useDeleteVisitMutation();
   const [curDoctors, setCurDoctors] = useState<Doctor[]>();
   const [curPatients, setCurPatients] = useState<Patient[]>();
-  const [areaId, setAreaId] = useState<string>();
+  const [doctorAreaId, setDoctorAreaId] = useState<string>();
+  const [patientAreaId, setPatientAreaId] = useState<string>();
   const [specializationId, setSpecializationId] = useState<string>();
   const [doctorId, setDoctorId] = useState<string>();
   const [patientId, setPatientId] = useState<string>();
@@ -46,22 +48,32 @@ export const AddVisitsPage = () => {
   const [selectedElement, setSelectedElement] = useState<Visit | undefined>();
 
   useEffect(() => {
-    if (areaId) {
-      setCurPatients(patients?.filter((p) => p.area?.id.toString() === areaId));
-    }
-  }, [areaId, patients]);
-
-  useEffect(() => {
-    if (areaId && specializationId) {
-      setCurDoctors(
-        doctors?.filter(
-          (d) =>
-            d.area?.id.toString() === areaId &&
-            d.specialization?.id.toString() === specializationId
-        )
+    if (patientAreaId) {
+      setCurPatients(
+        patients?.filter((p) => p.area?.id.toString() === patientAreaId)
       );
     }
-  }, [doctors, areaId, specializationId]);
+  }, [patientAreaId, patients]);
+
+  useEffect(() => {
+    if (specializationId) {
+      if (doctorAreaId) {
+        setCurDoctors(
+          doctors?.filter(
+            (d) =>
+              d.area?.id.toString() === doctorAreaId &&
+              d.specialization?.id.toString() === specializationId
+          )
+        );
+      } else {
+        setCurDoctors(
+          doctors?.filter(
+            (d) => d.specialization?.id.toString() === specializationId
+          )
+        );
+      }
+    }
+  }, [doctors, doctorAreaId, specializationId]);
 
   const selectClasses = classNames("Select").split(" ");
 
@@ -97,64 +109,79 @@ export const AddVisitsPage = () => {
   return (
     <div className={cls.page}>
       <div className={cls.inputs}>
-        <div className={cls.inputField}>
-          <label>Участок</label>
-          <Select
-            data={areas}
-            selectValue={"id"}
-            selectLabel={"id"}
-            value={areaId}
-            onChange={(el) => {
-              setAreaId(el);
-              setSpecializationId("");
-              setDoctorId("");
-              setPatientId("");
-            }}
-            classes={selectClasses}
+        <div className="dateWidth">
+          <DatePicker
+            value={selectedDate}
+            onChange={(newValue) => setSelectedDate(newValue)}
           />
         </div>
-        <div className={cls.inputField}>
-          <label>Специальность</label>
-          <Select
-            data={specializations}
-            selectValue={"id"}
-            selectLabel={"name"}
-            value={specializationId}
-            onChange={(el) => {
-              setSpecializationId(el);
-              setDoctorId("");
-            }}
-            classes={selectClasses}
-          />
+        <div className={cls.block}>
+          <div className={cls.labels}>
+            <label>Специальность</label>
+            <label>Участок врача</label>
+            <label>Врач</label>
+          </div>
+          <div className={cls.selects}>
+            <Select
+              data={specializations}
+              selectValue={"id"}
+              selectLabel={"name"}
+              value={specializationId}
+              onChange={(el) => {
+                setSpecializationId(el);
+                setDoctorId("");
+              }}
+              classes={selectClasses}
+            />
+            <Select
+              data={areas}
+              selectValue={"id"}
+              selectLabel={"id"}
+              value={doctorAreaId}
+              onChange={(el) => {
+                setDoctorAreaId(el);
+                setDoctorId("");
+                setPatientId("");
+              }}
+              classes={selectClasses}
+              disabled={
+                specializationId === SPECS.AREA_DOCTOR_ID ? false : true
+              }
+            />
+            <Select
+              data={curDoctors}
+              selectValue={"id"}
+              selectLabel={"fullName"}
+              value={doctorId}
+              onChange={setDoctorId}
+              classes={selectClasses}
+            />
+          </div>
         </div>
-        <div className={cls.inputField}>
-          <label>Врач</label>
-          <Select
-            data={curDoctors}
-            selectValue={"id"}
-            selectLabel={"fullName"}
-            value={doctorId}
-            onChange={setDoctorId}
-            classes={selectClasses}
-          />
+        <div className={cls.block}>
+          <div className={cls.labels}>
+            <label>Участок пациента</label>
+            <label>Пациенты</label>
+          </div>
+          <div className={cls.selects}>
+            <Select
+              data={areas}
+              selectValue={"id"}
+              selectLabel={"id"}
+              value={patientAreaId}
+              onChange={setPatientAreaId}
+              classes={selectClasses}
+            />
+            <Select
+              data={curPatients}
+              selectValue={"id"}
+              selectLabel={"fullName"}
+              value={patientId}
+              onChange={setPatientId}
+              classes={selectClasses}
+            />
+          </div>
         </div>
-        <div className={cls.inputField}>
-          <label>Пациенты</label>
-          <Select
-            data={curPatients}
-            selectValue={"id"}
-            selectLabel={"fullName"}
-            value={patientId}
-            onChange={setPatientId}
-            classes={selectClasses}
-          />
-        </div>
-      </div>
-      <div className="dateWidth">
-        <DatePicker
-          value={selectedDate}
-          onChange={(newValue) => setSelectedDate(newValue)}
-        />
       </div>
       <div className={cls.bodyPage}>
         <TableContainer

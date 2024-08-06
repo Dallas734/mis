@@ -1,107 +1,119 @@
-@import '../../../../shared/styles/index.scss';
+@import "../../../../shared/styles/index.scss";
 
 .Button {
-    background-color: transparent;
-    border-radius: var(--border-radius);
-    border-color: var(--color-main);
-    padding: 10px;
-    height: var(--button-height);
-    font-size: var(--font-size-xs);
-    text-align: center;
-    cursor: pointer;
-    font-family: 'OpenSans', sans-serif;
+  background-color: transparent;
+  border-radius: var(--border-radius);
+  border-color: var(--color-main);
+  padding: 10px;
+  height: var(--button-height);
+  font-size: var(--font-size-xs);
+  text-align: center;
+  cursor: pointer;
+  font-family: "OpenSans", sans-serif;
 
-    &:disabled {
-        cursor:unset;
-        opacity: 0.3;
-    }
+  &:disabled {
+    cursor: unset;
+    opacity: 0.3;
+  }
 }
 
 .loginButton,
-.createButton {
-    &:not(:disabled)
-    {
-        &:hover {
-            background-color: var(--color-main);
-        }
+.createButton,
+.registerButton {
+  &:not(:disabled) {
+    &:hover {
+      background-color: var(--color-main);
     }
+  }
 }
 
 .border-radius {
-    border-radius: var(--border-radius);
+  border-radius: var(--border-radius);
 }
 
 .closeButton {
-    @include square(20px);
+  @include square(20px);
 
-    background-image: url(../../../assets/icons/cross.svg);
+  background-image: url(../../../assets/icons/cross.svg);
 
-    position: relative;
-    align-self: flex-end;
+  position: relative;
+  align-self: flex-end;
 
-    &:hover {
-        opacity: 1;
-    }
+  &:hover {
+    opacity: 1;
+  }
 
-    &::before, &::after {
-        position: absolute;
-        content: ' ';
-        top: 48%;
-        left: 15%;
-        width: 70%;
-        height: 2px;
-        background-color: #333;
-    }
+  &::before,
+  &::after {
+    position: absolute;
+    content: " ";
+    top: 48%;
+    left: 15%;
+    width: 70%;
+    height: 2px;
+    background-color: #333;
+  }
 
-    &::before {
-        transform: rotate(45deg);
-    }
+  &::before {
+    transform: rotate(45deg);
+  }
 
-    &::after {
-        transform: rotate(-45deg);
-    }
-
+  &::after {
+    transform: rotate(-45deg);
+  }
 }
 
 .okButton {
-    background-color: var(--color-purple-light);
-    color: var(--color-light);
-    // background-image: url(../../assets/icons/buttons/check-tick-svgrepo-com.svg);  
+  background-color: var(--color-purple-light);
+  color: var(--color-light);
+  // background-image: url(../../assets/icons/buttons/check-tick-svgrepo-com.svg);
 }
 
 .crud {
-    background-color: var(--theme-crud-button-color-bg);
-    transition-duration: 0s;
-    color: currentColor;
-    font-weight: 500;
+  background-color: var(--theme-crud-button-color-bg);
+  transition-duration: 0s;
+  color: currentColor;
+  font-weight: 500;
 
-    &:not(:disabled)
-    {
-        :hover {
-            background-color: var(--color-hover-crud-button-bg);
-        }
+  &:not(:disabled) {
+    :hover {
+      background-color: var(--color-hover-crud-button-bg);
     }
+  }
 }
 
 .saveButton {
-    width: 100px;
+  width: 100px;
 }
 
 .leaveButton {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    border: none;
-    cursor: pointer;
-    text-align: center;
-    &:hover {
-        filter: inset brightness(1.2);
-        background-color: var(--color-main);
-    }
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  border: none;
+  cursor: pointer;
+  text-align: center;
+  &:hover {
+    filter: inset brightness(1.2);
+    background-color: var(--color-main);
+  }
 
-    &::after {
-        background-image: url(../../../assets/icons/leave.svg);
-        @include square(20px);
-    }
-        //background-image: url(../../../assets/icons/leave.svg);
+  &::after {
+    background-image: url(../../../assets/icons/leave.svg);
+    @include square(20px);
+  }
+  background-image: url(../../../assets/icons/leave.svg);
+}
+
+.eye-icon {
+  position: relative;
+  top: -37px;
+  float: right;
+  right: 10px;
+  cursor: pointer;
+  background-image: url(../../../assets/icons/eye.svg);
+  background-repeat: no-repeat;
+  background-size: 20px;
+  background-position: center;
+  border: none;
 }

@@ -7,6 +7,7 @@ import { routeConfig } from "../config/routeConfig";
 import { LoginPage } from "../../../../pages/LoginPage";
 import { NotFoundPage } from "../../../../pages/NotFoundPage";
 import { AuthContext } from "../../../../shared/context/IsAuthContext";
+import { RegisterPage } from "../../../../pages/RegisterPage";
 
 const AppRouter = () => {
     // const {data, isLoading, isFetching} = UserApi.useIsAuthQuery();
@@ -28,10 +29,11 @@ const AppRouter = () => {
 
     return <Routes>
         <Route index element={<LoginPage/>}/>
+        <Route path='/register' element={<RegisterPage />}/>
         <Route path='*' element={<NotFoundPage />}/>
         <Route path='/' element={<Page/>}>
             <Route path='/main' element={<></>}/>
-            {Object.values(routeConfig).slice(2).map(renderWithWrapper)}
+            {Object.values(routeConfig).slice(3).map(renderWithWrapper)}
         </Route>
     </Routes>;
 };

@@ -13,6 +13,7 @@ import { Button } from "../../../../shared/ui/Button";
 import classNames from "classnames";
 import { Modal } from "../../../../features/Modal";
 import { DoctorApi } from "../../../../entities/Doctor/api/DoctorApi";
+import { SPECS } from "../../../../shared/types/constants";
 
 interface ModalProps {
   isOpen: boolean;
@@ -139,8 +140,8 @@ export const DoctorModal = (props: ModalProps) => {
             <label>Отчество</label>
             <label>Дата рождения</label>
             <label>Специализация</label>
-            <label>Статус</label>
             <label>Участок</label>
+            <label>Статус</label>
             <label>Категория</label>
             <label>Пол</label>
           </div>
@@ -159,16 +160,12 @@ export const DoctorModal = (props: ModalProps) => {
               selectValue={"id"}
               selectLabel={"name"}
               value={specializationId}
-              onChange={setSpecializationId}
+              onChange={(e) => {
+                setSpecializationId(e);
+                setAreaId("");
+              }}
               classes={selectClasses}
-            />
-            <Select
-              data={statuses}
-              selectValue={"id"}
-              selectLabel={"name"}
-              value={statusId}
-              onChange={setStatusId}
-              classes={selectClasses}
+              required
             />
             <Select
               data={areas}
@@ -177,6 +174,19 @@ export const DoctorModal = (props: ModalProps) => {
               value={areaId}
               onChange={setAreaId}
               classes={selectClasses}
+              disabled={
+                specializationId === SPECS.AREA_DOCTOR_ID ? false : true
+              }
+              required
+            />
+            <Select
+              data={statuses}
+              selectValue={"id"}
+              selectLabel={"name"}
+              value={statusId}
+              onChange={setStatusId}
+              classes={selectClasses}
+              required
             />
             <Select
               data={categories}
@@ -185,6 +195,7 @@ export const DoctorModal = (props: ModalProps) => {
               value={categoryId}
               onChange={setCategoryId}
               classes={selectClasses}
+              required
             />
             <Select
               data={genders}
@@ -193,6 +204,7 @@ export const DoctorModal = (props: ModalProps) => {
               value={genderId}
               onChange={setGenderId}
               classes={selectClasses}
+              required
             />
           </div>
         </div>

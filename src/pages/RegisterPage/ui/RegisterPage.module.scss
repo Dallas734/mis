@@ -1,0 +1,32 @@
+.block {
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    overflow: auto;
+    white-space: nowrap;
+    text-align: center;
+    background-image: url(../../../shared/assets/images/background.svg);
+    background-position: center center;
+
+    &::before {
+        height: 100%;
+        display: inline-block;
+        vertical-align: middle;
+        content: '';
+    }
+}
+
+.blockRegister {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.bg {
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    background-image: url(../../../shared/assets/images/background.svg) no-repeat;
+}

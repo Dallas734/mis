@@ -15,14 +15,14 @@ export const AuthProvider = (props: AuthProviderProps) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!isLoading && !isFetching) 
-        if (data)
-            setIsAuth(true);
-    else 
-    {
-        navigate('/')
-        setIsAuth(false);
-    }
+    // if (!isLoading && !isFetching) 
+    //     if (data)
+    //         setIsAuth(true);
+    // else 
+    // {
+    //     navigate('/')
+    //     setIsAuth(false);
+    // }
   }, [isAuth, isLoading, isFetching, data, navigate]);
 
   useEffect(() => {

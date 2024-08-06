@@ -14,6 +14,8 @@ interface SelectProps<T> {
   selectLabel: string | number | readonly string[] | undefined;
   onChange?: (value: string) => void;
   value?: string | number | readonly string[] | undefined;
+  required?: boolean,
+  disabled?: boolean
 }
 export const Select = <T extends Object>(props: SelectProps<T>) => {
   const cn = cnBind.bind(cls);
@@ -24,6 +26,8 @@ export const Select = <T extends Object>(props: SelectProps<T>) => {
     value,
     selectValue,
     selectLabel,
+    required,
+    disabled,
     ...otherProps
   } = props;
 
@@ -47,7 +51,8 @@ export const Select = <T extends Object>(props: SelectProps<T>) => {
         onChange={onChangeHandler}
         value={value}
         {...otherProps}
-        required
+        required={required}
+        disabled={disabled}
       >
         <option value={""} key={""}></option>
         {options.map((el, index) => {

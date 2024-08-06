@@ -218,7 +218,7 @@ export const NTable = <T extends Object>(props: TableProps<T>) => {
                   let arr: Object[] = [];
                   getProperty(indexes, 0, el, arr);
                   return (
-                    <TableCell key={indexes[0]}>
+                    <TableCell key={Math.random()}>
                       <>{arr[0]}</>
                     </TableCell>
                   );
