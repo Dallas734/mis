@@ -8,10 +8,12 @@ import { LoginPage } from "../../../../pages/LoginPage";
 import { NotFoundPage } from "../../../../pages/NotFoundPage";
 import { AuthContext } from "../../../../shared/context/IsAuthContext";
 import { RegisterPage } from "../../../../pages/RegisterPage";
+import { AuthProvider } from "../../AuthProvider";
+import { UserApi } from "../../../../entities/User/api/UserApi";
 
 const AppRouter = () => {
     // const {data, isLoading, isFetching} = UserApi.useIsAuthQuery();
-    const { isAuth } = useContext(AuthContext)
+    const {data: user} = UserApi.useIsAuthQuery(); 
 
     const renderWithWrapper = useCallback((route: AppRoutesProps) => {
         const element = (
@@ -22,10 +24,10 @@ const AppRouter = () => {
             <Route
                 key={route.path}
                 path={route.path}
-                element={isAuth? element : <></>}
+                element={user? element : <></>}
             />
         );
-    }, [isAuth]);
+    }, [user]);
 
     return <Routes>
         <Route index element={<LoginPage/>}/>

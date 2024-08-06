@@ -26,9 +26,9 @@ export const AuthProvider = (props: AuthProviderProps) => {
   }, [isAuth, isLoading, isFetching, data, navigate]);
 
   useEffect(() => {
-    if (!isAuth)
-        if (data)
-            navigate('/main')
+    // if (!isAuth)
+    //     if (data)
+    //         navigate('/main')
   }, [isAuth, data, navigate])
 
   const defaultProps = useMemo(
