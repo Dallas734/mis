@@ -1,4 +1,4 @@
-import { memo, Suspense, useCallback, useContext } from "react";
+import { memo, Suspense, useCallback } from "react";
 import { AppRoutesProps } from "../../../../shared/types/AppRouter";
 import { PageLoader } from "../../../../widgets/PageLoader";
 import { Route, Routes } from "react-router-dom";
@@ -6,9 +6,7 @@ import { Page } from "../../../../widgets/Page";
 import { routeConfig } from "../config/routeConfig";
 import { LoginPage } from "../../../../pages/LoginPage";
 import { NotFoundPage } from "../../../../pages/NotFoundPage";
-import { AuthContext } from "../../../../shared/context/IsAuthContext";
 import { RegisterPage } from "../../../../pages/RegisterPage";
-import { AuthProvider } from "../../AuthProvider";
 import { UserApi } from "../../../../entities/User/api/UserApi";
 
 const AppRouter = () => {
