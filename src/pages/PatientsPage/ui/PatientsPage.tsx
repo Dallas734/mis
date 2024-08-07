@@ -8,6 +8,7 @@ import { Button } from "../../../shared/ui/Button";
 import { TableColumn } from "../../../shared/types/TableColumn";
 import { NTable } from "../../../shared/ui/Table";
 import { PatientModal } from "../../../widgets/Modals/PatientModal";
+import toast from "react-hot-toast";
 
 export const PatientsPage = () => {
   const { data: patients } = PatientApi.useFetchAllPatientsQuery();
@@ -59,8 +60,11 @@ export const PatientsPage = () => {
     setModalIsOpen(true);
   };
 
-  const handleDeleteButton = () => {
-    if (selectedPatient) deletePatient(selectedPatient?.id);
+  const handleDeleteButton = async () => {
+    if (selectedPatient) {
+      const { error } = await deletePatient(selectedPatient?.id);
+      error ? toast.error("Ошибка!") : toast.success("Успешно!");
+    }
     setSelectedPatient(undefined);
   };
 

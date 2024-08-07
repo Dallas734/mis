@@ -14,6 +14,7 @@ import classNames from "classnames";
 import { Modal } from "../../../../features/Modal";
 import { DoctorApi } from "../../../../entities/Doctor/api/DoctorApi";
 import { SPECS } from "../../../../shared/types/constants";
+import toast from "react-hot-toast";
 
 interface ModalProps {
   isOpen: boolean;
@@ -85,7 +86,7 @@ export const DoctorModal = (props: ModalProps) => {
     }
   }, [doctor, queryType]);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     switch (queryType) {
       case "CREATE":
@@ -102,7 +103,9 @@ export const DoctorModal = (props: ModalProps) => {
             (s) => s.id === Number(specializationId)
           ),
         };
-        createDoctor(newDoctor);
+        const { error } = await createDoctor(newDoctor);
+        error ? toast.error("Ошибка!") : toast.success("Успешно!");
+
         clearFields();
         break;
       case "UPDATE":
@@ -120,7 +123,8 @@ export const DoctorModal = (props: ModalProps) => {
             (s) => s.id === Number(specializationId)
           ),
         };
-        updateDoctor(updatedDoctor);
+        const { error: upError } = await updateDoctor(updatedDoctor);
+        upError ? toast.error("Ошибка!") : toast.success("Успешно!");
         break;
     }
     setIsOpen(false);

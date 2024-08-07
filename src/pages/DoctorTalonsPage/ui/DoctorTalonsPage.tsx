@@ -17,6 +17,7 @@ import { Select } from "../../../shared/ui/Select";
 import classNames from "classnames";
 import { ProcedureApi } from "../../../entities/Procedure/api/ProcedureApi";
 import { Button } from "../../../shared/ui/Button";
+import toast from "react-hot-toast";
 
 export const DoctorTalonsPage = () => {
   const [selectedDate, setSelectedDate] = useState<dayjs.Dayjs | null>(
@@ -45,17 +46,18 @@ export const DoctorTalonsPage = () => {
     "createButton"
   ).split(" ");
 
-  const handleCompleteButton = () => {
-    completeVisit({
-        id: selectedElement?.id,
-        patient: selectedElement?.patient,
-        diagnosis: { id: diagnosisId ? Number(diagnosisId) : 0, name: "" },
-        recipe: recipe,
-        procedure: { id: procedureId ? Number(procedureId) : 0, name: "" },
-        dateT: selectedElement?.dateT,
-        timeT: selectedElement?.timeT,
-        doctor: selectedElement?.doctor,
-    })
+  const handleCompleteButton = async () => {
+    const { error } = await completeVisit({
+      id: selectedElement?.id,
+      patient: selectedElement?.patient,
+      diagnosis: { id: diagnosisId ? Number(diagnosisId) : 0, name: "" },
+      recipe: recipe,
+      procedure: { id: procedureId ? Number(procedureId) : 0, name: "" },
+      dateT: selectedElement?.dateT,
+      timeT: selectedElement?.timeT,
+      doctor: selectedElement?.doctor,
+    });
+    error ? toast.error("Ошибка!") : toast.success("Успешно!");
   };
 
   return (
@@ -175,7 +177,7 @@ export const DoctorTalonsPage = () => {
               onChange={(e) => setRecipe(e.target.value)}
               rows={4}
               placeholder="Рецепт"
-              style={{ marginBottom: "10px", resize: "none", height: '150px' }}
+              style={{ marginBottom: "10px", resize: "none", height: "150px" }}
             />
           </div>
           <div className={cls.buttons}>

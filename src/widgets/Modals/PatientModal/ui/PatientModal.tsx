@@ -10,6 +10,7 @@ import { Input } from "../../../../shared/ui/Input";
 import { Select } from "../../../../shared/ui/Select";
 import { Button } from "../../../../shared/ui/Button";
 import { Modal } from "../../../../features/Modal";
+import toast from "react-hot-toast";
 
 interface ModalProps {
   isOpen: boolean;
@@ -77,7 +78,7 @@ export const PatientModal = (props: ModalProps) => {
     setWorkPlace("");
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     switch (queryType) {
       case "CREATE":
@@ -92,7 +93,8 @@ export const PatientModal = (props: ModalProps) => {
           polis,
           workPlace,
         };
-        createPatient(newPatient);
+        const { error } = await createPatient(newPatient);
+        error ? toast.error("Ошибка!") : toast.success("Успешно!");
         clearFields();
         break;
       case "UPDATE":
@@ -108,7 +110,8 @@ export const PatientModal = (props: ModalProps) => {
           polis,
           workPlace,
         };
-        updatePatient(updatedPatient);
+        const { error: upError } = await updatePatient(updatedPatient);
+        upError ? toast.error("Ошибка!") : toast.success("Успешно!");
         break;
     }
     setIsOpen(false);

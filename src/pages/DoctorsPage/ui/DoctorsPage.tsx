@@ -8,6 +8,7 @@ import { Button } from "../../../shared/ui/Button";
 import classNames from "classnames";
 import { QueryT } from "../../../shared/types/QueryT";
 import { DoctorModal } from "../../../widgets/Modals/DoctorModal";
+import toast from "react-hot-toast";
 
 export const DoctorsPage = () => {
   const { data: doctors } = DoctorApi.useFetchAllDoctorsQuery();
@@ -49,8 +50,11 @@ export const DoctorsPage = () => {
     "deleteButton"
   ).split(" ");
 
-  const handleDeleteButton = () => {
-    if (selectedDoctor) deleteDoctor(selectedDoctor?.id);
+  const handleDeleteButton = async () => {
+    if (selectedDoctor) {
+      const { error } = await deleteDoctor(selectedDoctor?.id);
+      error ? toast.error("Ошибка!") : toast.success("Успешно!");
+    }
     setSelectedDoctor(undefined);
   };
 

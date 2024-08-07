@@ -12,6 +12,7 @@ import dayjs from "dayjs";
 import { Button } from "../../../shared/ui/Button";
 import { Doctor } from "../../../entities/Doctor";
 import { SPECS } from "../../../shared/types/constants";
+import toast from "react-hot-toast";
 
 export const SchedulePage = () => {
   const { data: areas } = AreaApi.useFetchAllAreasQuery();
@@ -64,8 +65,9 @@ export const SchedulePage = () => {
     "saveButton"
   ).split(" ");
 
-  const handleSaveClick = () => {
-    updateSchedule(curSchedule);
+  const handleSaveClick = async () => {
+    const { error } = await updateSchedule(curSchedule);
+    error ? toast.error("Ошибка!") : toast.success("Успешно!");
   };
 
   return (

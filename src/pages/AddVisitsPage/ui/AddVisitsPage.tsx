@@ -21,6 +21,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import { Button } from "../../../shared/ui/Button";
 import { SPECS } from "../../../shared/types/constants";
+import toast from "react-hot-toast";
 
 export const AddVisitsPage = () => {
   const { data: areas } = AreaApi.useFetchAllAreasQuery();
@@ -91,19 +92,20 @@ export const AddVisitsPage = () => {
     "deleteButton"
   ).split(" ");
 
-  const handleCreateButton = () => {
+  const handleCreateButton = async () => {
     const newVisit: Visit = {
       doctor: doctors?.find((d) => d.id === Number(doctorId)),
       patient: patients?.find((p) => p.id === Number(patientId)),
       dateT: selectedDate?.format("YYYY-MM-DD"),
       timeT: selectedElement?.timeT,
     };
-    console.log(newVisit);
-    addVisit(newVisit);
+    const { error } = await addVisit(newVisit);
+    error ? toast.error("Ошибка!") : toast.success("Успешно!");
   };
 
-  const handleDeleteButton = () => {
-    deleteVisit(selectedElement?.id);
+  const handleDeleteButton = async () => {
+    const { error } = await deleteVisit(selectedElement?.id);
+    error ? toast.error("Ошибка!") : toast.success("Успешно!");
   };
 
   return (

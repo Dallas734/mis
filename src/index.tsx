@@ -7,6 +7,7 @@ import { AuthProvider } from "./app/providers/AuthProvider";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import "dayjs/locale/ru";
+import { Toaster } from "react-hot-toast";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -14,9 +15,10 @@ const root = ReactDOM.createRoot(
 root.render(
   <BrowserRouter>
     <StoreProvider>
-      <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="ru"> 
+      <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="ru">
         <AuthProvider>
-          <App />
+            <App />
+            <Toaster />
         </AuthProvider>
       </LocalizationProvider>
     </StoreProvider>
