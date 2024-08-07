@@ -13,7 +13,13 @@ import { Link, useNavigate } from "react-router-dom";
 
 export const RegisterForm = () => {
   const [register] = UserApi.useRegisterMutation();
-  const { data: user } = UserApi.useIsAuthQuery();
+  const {
+    data: user,
+    error: isAuthError,
+    isSuccess,
+    isLoading,
+    isFetching,
+  } = UserApi.useIsAuthQuery();
   const [errorMsg, setErrorMsg] = useState<string>();
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
@@ -27,8 +33,9 @@ export const RegisterForm = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (user) navigate("/main");
-  }, [user, navigate]);
+    if (user && !isAuthError && isSuccess && !isLoading && !isFetching)
+      navigate("/main");
+  }, [isAuthError, navigate, user, isSuccess, isLoading, isFetching]);
 
   const InputClassesUser = classNames("input-m", "icon", "user").split(" ");
 

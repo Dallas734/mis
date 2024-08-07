@@ -10,7 +10,13 @@ import { Link } from "react-router-dom";
 
 export const LoginForm = () => {
   const [auth, { error }] = UserApi.useAuthMutation();
-  const { data: user } = UserApi.useIsAuthQuery();
+  const {
+    data: user,
+    isLoading,
+    isSuccess,
+    isFetching,
+    error: isAuthError,
+  } = UserApi.useIsAuthQuery();
   const [username, setUsername] = useState<string>("vernidub66@gmail.com");
   const [password, setPassword] = useState<string>("Baguvix_160403");
   const [rememberMe, setRememberMe] = useState<boolean>(false);
@@ -19,8 +25,9 @@ export const LoginForm = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (user) navigate("/main");
-  }, [user, navigate]);
+    if (user && !isAuthError && isSuccess && !isLoading && !isFetching)
+      navigate("/main");
+  }, [isAuthError, navigate, user, isSuccess, isLoading, isFetching]);
 
   const InputClassesUser = classNames("input-m", "icon", "user").split(" ");
 

@@ -18,27 +18,28 @@ export const UserApi = createApi({
         body: loginScheme,
         credentials: "include",
       }),
-      invalidatesTags: ['User']
+      invalidatesTags: ["User"],
     }),
     register: builder.mutation<RegisterResponse, RegisterScheme>({
       query: (registerScheme) => ({
         url: "register",
         method: "POST",
         body: registerScheme,
-        credentials: "include"
-      })
+        credentials: "include",
+      }),
     }),
     isAuth: builder.query<User, void>({
       query: () => ({ url: "isauthenticated", method: "GET" }),
-      providesTags: ["User"]
+      providesTags: ["User"],
     }),
     logoff: builder.mutation<void, void>({
       query: () => ({
         url: "logoff",
         method: "POST",
-        credentials: "include"
-      })
-    })
+        credentials: "include",
+      }),
+      invalidatesTags: ["User"],
+    }),
   }),
 });
 
