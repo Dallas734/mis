@@ -1,0 +1,1 @@
+export type {WorkloadAreaReport} from './types/WorkloadAreaReport'

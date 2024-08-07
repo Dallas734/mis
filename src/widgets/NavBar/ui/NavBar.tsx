@@ -7,6 +7,7 @@ import {
   getRouteSchedule,
   getRoutePatientCard,
   getRouteDoctorTalons,
+  getRouteWorkloadAreaReport,
 } from "../../../shared/const/router";
 import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
 import {
@@ -15,6 +16,9 @@ import {
   Dataset,
   AppRegistration,
   Diversity1,
+  PieChart,
+  BarChart,
+  DataSaverOff,
 } from "@mui/icons-material";
 import { useState } from "react";
 import cls from "./NavBar.module.scss";
@@ -85,6 +89,15 @@ export const NavBar = () => {
                 >
                   Записать пациента
                 </MenuItem>
+              </SubMenu>
+              <SubMenu label="Отчеты" icon={<PieChart />}>
+                <MenuItem
+                  component={<Link to={getRouteWorkloadAreaReport()} />}
+                  icon={<BarChart />}
+                >
+                  Загр. участков
+                </MenuItem>
+                <MenuItem icon={<DataSaverOff />}>Загр. врачей</MenuItem>
               </SubMenu>
             </>
           ) : user?.roles.includes("Doctor") ? (
