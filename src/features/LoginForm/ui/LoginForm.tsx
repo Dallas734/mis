@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import cls from "./LoginForm.module.scss";
 import { Input } from "../../../shared/ui/Input";
 import { useNavigate } from "react-router-dom";
@@ -10,12 +10,17 @@ import { Link } from "react-router-dom";
 
 export const LoginForm = () => {
   const [auth, { error }] = UserApi.useAuthMutation();
+  const { data: user } = UserApi.useIsAuthQuery();
   const [username, setUsername] = useState<string>("vernidub66@gmail.com");
   const [password, setPassword] = useState<string>("Baguvix_160403");
   const [rememberMe, setRememberMe] = useState<boolean>(false);
   const [showPassword, setShowPassword] = useState<boolean>(false);
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (user) navigate("/main");
+  }, [user, navigate]);
 
   const InputClassesUser = classNames("input-m", "icon", "user").split(" ");
 

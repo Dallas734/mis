@@ -4,15 +4,16 @@ import Radio from "@mui/material/Radio";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import { Input } from "../../../shared/ui/Input";
 import classNames from "classnames";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "../../../shared/ui/Button";
 import { ROLES } from "../../../shared/types/constants";
 import { UserApi } from "../../../entities/User/api/UserApi";
 import { RegisterResponse, RegisterScheme } from "../../../entities/User";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export const RegisterForm = () => {
   const [register] = UserApi.useRegisterMutation();
+  const { data: user } = UserApi.useIsAuthQuery();
   const [errorMsg, setErrorMsg] = useState<string>();
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
@@ -22,6 +23,12 @@ export const RegisterForm = () => {
     useState<boolean>(false);
   const [doctorId, setDoctorId] = useState<string | undefined>(undefined);
   const [role, setRole] = useState<string>("Doctor");
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (user) navigate("/main");
+  }, [user, navigate]);
 
   const InputClassesUser = classNames("input-m", "icon", "user").split(" ");
 
