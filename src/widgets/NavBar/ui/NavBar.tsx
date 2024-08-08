@@ -9,6 +9,7 @@ import {
   getRouteDoctorTalons,
   getRouteWorkloadAreaReport,
   getRouteworkloadDoctorReport,
+  getRouteWorkloadDiagnosisReport,
 } from "../../../shared/const/router";
 import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
 import {
@@ -120,6 +121,14 @@ export const NavBar = () => {
               >
                 Принять пациента
               </MenuItem>
+              <SubMenu label="Отчеты" icon={<PieChart />}>
+                <MenuItem
+                  component={<Link to={getRouteWorkloadDiagnosisReport()} />}
+                  icon={<DataSaverOff />}
+                >
+                  Стат. диагнозов
+                </MenuItem>
+              </SubMenu>
             </>
           ) : (
             <></>

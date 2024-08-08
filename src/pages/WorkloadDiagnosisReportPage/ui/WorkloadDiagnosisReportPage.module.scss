@@ -1,0 +1,22 @@
+.page {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.inputs {
+    display: flex;
+    gap: 10px;
+}
+
+.chart {
+    width: 100%;
+    height: 100%;
+    margin-top: -20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.label {
+    margin-top: 10px;
+}

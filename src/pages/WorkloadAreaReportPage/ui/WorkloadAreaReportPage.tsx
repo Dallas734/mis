@@ -25,7 +25,7 @@ export const WorkloadAreaReportPage = () => {
     setChartData(
       report?.map((el) => ({
         name: el.area.id.toString(),
-        value: el.workload * 100,
+        value: Math.round((el.workload + Number.EPSILON) * 100 * 100) / 100,
       }))
     );
   }, [chartData, report]);

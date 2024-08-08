@@ -1,44 +1,38 @@
+import cls from "./WorkloadDiagnosisReportPage.module.scss";
+import { DatePicker } from "@mui/x-date-pickers";
+import { PieChart, Pie, Cell, Tooltip, Legend } from "recharts";
 import { useEffect, useState } from "react";
 import dayjs from "dayjs";
-import cls from "./WorkloadDoctorReportPage.module.scss";
-import { DatePicker } from "@mui/x-date-pickers";
-import { Select } from "../../../shared/ui/Select";
-import { SpecializationApi } from "../../../entities/Specialization/api/SpecializationApi";
-import classNames from "classnames";
-import { PieChart, Pie, Cell, Tooltip, Legend } from "recharts";
+import { UserApi } from "../../../entities/User/api/UserApi";
 import { ReportApi } from "../../../entities/Report/api/ReportApi";
-import { WorkloadDoctorReport } from "../../../entities/Report";
+import { WorkloadDiagnosisReport } from "../../../entities/Report";
 
-export const WorkloadDoctorReportPage = () => {
+export const WorkloadDiagnosisReportPage = () => {
   const [beginDate, setBeginDate] = useState<dayjs.Dayjs | null>(
     dayjs(new Date())
   );
   const [endDate, setEndDate] = useState<dayjs.Dayjs | null>(dayjs(new Date()));
-  const [specId, setSpecId] = useState<string>();
-  const { data: specializations } =
-    SpecializationApi.useFetchAllSpecializationsQuery();
-  const { data: report } = ReportApi.useMakeWorkloadDoctorReportQuery({
+  const { data: user } = UserApi.useIsAuthQuery();
+  const { data: report } = ReportApi.useMakeWorkloadDiagnosisReportQuery({
     beginDate,
     endDate,
-    specId,
+    doctorId: user?.doctorId?.toString(),
   });
-  const [chartData, setChartData] = useState<WorkloadDoctorReport[]>();
+  const [chartData, setChartData] = useState<WorkloadDiagnosisReport[]>();
 
   useEffect(() => {
     setChartData(
       report?.map((el) => ({
-        doctor: el.doctor,
         name: el.name,
         workload: Math.round((el.workload + Number.EPSILON) * 100 * 100) / 100,
       }))
     );
-  }, [report]);
+    console.log(chartData);
+  }, [report, chartData]);
 
-  const selectClasses = classNames("Select").split(" ");
+  const renderLable = (entry: WorkloadDiagnosisReport) => entry.workload + "%";
 
   const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
-
-  const renderLable = (entry: WorkloadDoctorReport) => entry.workload + "%";
 
   return (
     <>
@@ -53,19 +47,6 @@ export const WorkloadDoctorReportPage = () => {
           <DatePicker
             value={endDate}
             onChange={(newValue) => setEndDate(newValue)}
-          />
-        </div>
-        <div className={cls.inputs}>
-          <label>Специализация: </label>
-          <Select
-            data={specializations}
-            selectValue={"id"}
-            selectLabel={"name"}
-            value={specId}
-            onChange={(e) => {
-              setSpecId(e);
-            }}
-            classes={selectClasses}
           />
         </div>
         <div className={cls.chart}>

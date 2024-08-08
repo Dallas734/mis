@@ -9,7 +9,8 @@ export enum AppRoutes {
   PATIENT_CARD = "patientCard",
   DOCTOR_TALONS = "doctorTalons",
   WORKLOAD_AREA_REPORT = "workloadAreaReport",
-  WORKLOAD_DOCTOR_REPORT = "workloadDoctorReport"
+  WORKLOAD_DOCTOR_REPORT = "workloadDoctorReport",
+  WORKLOAD_DIAGNOSIS_REPORT = "workloadDiagnosisReport"
 }
 
 export const getRouteLogin = () => "/login";
@@ -23,3 +24,4 @@ export const getRoutePatientCard = () => "/patientCard";
 export const getRouteDoctorTalons = () => "/doctorTalons";
 export const getRouteWorkloadAreaReport = () => "/workloadAreaReport";
 export const getRouteworkloadDoctorReport  = () => "/workloadDoctorReport";
+export const getRouteWorkloadDiagnosisReport = () => "/workloadDiagnosisReport"
