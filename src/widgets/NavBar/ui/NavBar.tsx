@@ -8,6 +8,7 @@ import {
   getRoutePatientCard,
   getRouteDoctorTalons,
   getRouteWorkloadAreaReport,
+  getRouteworkloadDoctorReport,
 } from "../../../shared/const/router";
 import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
 import {
@@ -97,7 +98,12 @@ export const NavBar = () => {
                 >
                   Загр. участков
                 </MenuItem>
-                <MenuItem icon={<DataSaverOff />}>Загр. врачей</MenuItem>
+                <MenuItem
+                  component={<Link to={getRouteworkloadDoctorReport()} />}
+                  icon={<DataSaverOff />}
+                >
+                  Загр. врачей
+                </MenuItem>
               </SubMenu>
             </>
           ) : user?.roles.includes("Doctor") ? (

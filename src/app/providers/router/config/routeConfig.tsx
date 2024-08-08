@@ -7,6 +7,7 @@ import { PatientsPage } from '../../../../pages/PatientsPage';
 import { RegisterPage } from '../../../../pages/RegisterPage';
 import { SchedulePage } from '../../../../pages/ScheduldePage';
 import WorkloadAreaReportPage from '../../../../pages/WorkloadAreaReportPage';
+import { WorkloadDoctorReportPage } from '../../../../pages/WorkloadDoctorReportPage';
 import {
     AppRoutes,
     getRouteLogin,
@@ -18,7 +19,8 @@ import {
     getRouteMain,
     getRoutePatientCard,
     getRouteDoctorTalons,
-    getRouteWorkloadAreaReport
+    getRouteWorkloadAreaReport,
+    getRouteworkloadDoctorReport
 } from '../../../../shared/const/router';
 import { AppRoutesProps } from '../../../../shared/types/AppRouter';
 
@@ -62,5 +64,9 @@ export const routeConfig: Record<AppRoutes, AppRoutesProps> = {
     [AppRoutes.WORKLOAD_AREA_REPORT]: {
         path: getRouteWorkloadAreaReport(),
         element: <WorkloadAreaReportPage />
+    },
+    [AppRoutes.WORKLOAD_DOCTOR_REPORT]: {
+        path: getRouteworkloadDoctorReport(),
+        element: <WorkloadDoctorReportPage />
     }
 };
