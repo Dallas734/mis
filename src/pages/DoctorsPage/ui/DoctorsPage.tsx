@@ -16,8 +16,6 @@ import { AreaApi } from "../../../entities/Area/api/AreaApi";
 import { StatusApi } from "../../../entities/Status/api/StatusApi";
 import { CategoryApi } from "../../../entities/Category/api/CategoryApi";
 import { GenderApi } from "../../../entities/Gender/api/GenderApi";
-import { Specialization } from "../../../entities/Specialization";
-import { createTheme, ThemeProvider } from "@mui/material";
 
 export const DoctorsPage = () => {
   const { data: doctors } = DoctorApi.useFetchAllDoctorsQuery();
@@ -40,21 +38,6 @@ export const DoctorsPage = () => {
   const [categoryId, setCategoryId] = useState<string>();
   const [genderId, setGenderId] = useState<string>();
   const [clear, setClear] = useState<boolean>(false);
-
-  const theme = createTheme({
-    components: {
-      MuiOutlinedInput: {
-        styleOverrides: {
-          root: {
-            borderRadius: 20,
-            "&:hover .MuiOutlinedInput-notchedOutline": {
-              borderColor: "red"
-            }
-          }
-        }
-      }
-    }
-  });
 
   useEffect(() => {
     if (
