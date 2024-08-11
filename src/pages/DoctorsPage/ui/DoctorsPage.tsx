@@ -16,6 +16,7 @@ import { AreaApi } from "../../../entities/Area/api/AreaApi";
 import { StatusApi } from "../../../entities/Status/api/StatusApi";
 import { CategoryApi } from "../../../entities/Category/api/CategoryApi";
 import { GenderApi } from "../../../entities/Gender/api/GenderApi";
+import dayjs from "dayjs";
 
 export const DoctorsPage = () => {
   const { data: doctors } = DoctorApi.useFetchAllDoctorsQuery();
@@ -69,7 +70,13 @@ export const DoctorsPage = () => {
             (genderId ? el.gender?.id.toString() === genderId : true)
         )
       );
-    } else setCurData(doctors);
+    } else
+      setCurData(
+        doctors?.map((el) => ({
+          ...el,
+          dateOfBirth: dayjs(el.dateOfBirth).format("DD-MM-YYYY"),
+        }))
+      );
   }, [
     doctors,
     lastName,
@@ -183,7 +190,7 @@ export const DoctorsPage = () => {
                   variant="outlined"
                   label="Специализация"
                   sx={{
-                    color: "1px solid green"
+                    color: "1px solid green",
                   }}
                 />
               )}

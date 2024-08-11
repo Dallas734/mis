@@ -27,7 +27,6 @@ export const WorkloadDiagnosisReportPage = () => {
         workload: Math.round((el.workload + Number.EPSILON) * 100 * 100) / 100,
       }))
     );
-    console.log(chartData);
   }, [report, chartData]);
 
   const renderLable = (entry: WorkloadDiagnosisReport) => entry.workload + "%";

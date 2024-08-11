@@ -8,6 +8,8 @@ import { Patient } from "../../../entities/Patient";
 import { TableColumn } from "../../../shared/types/TableColumn";
 import { NTable } from "../../../shared/ui/Table";
 import { VisitsApi } from "../../../entities/Visit/api/VisitsApi";
+import { Visit } from "../../../entities/Visit";
+import dayjs from "dayjs";
 
 export const PatientCardPage = () => {
   const { data: areas } = AreaApi.useFetchAllAreasQuery();
@@ -16,6 +18,7 @@ export const PatientCardPage = () => {
   const [curPatients, setCurPatients] = useState<Patient[]>();
   const [patientId, setPatientId] = useState<string | undefined>();
   const { data: patientCard } = VisitsApi.useGetPatientCardQuery(patientId);
+  const [curPatientCard, setCurPatientCard] = useState<Visit[] | undefined>();
 
   const selectClasses = classNames("Select").split(" ");
 
@@ -24,6 +27,15 @@ export const PatientCardPage = () => {
       setCurPatients(patients?.filter((p) => p.area?.id.toString() === areaId));
     if (areaId === "") setCurPatients(undefined);
   }, [areaId, patients]);
+
+  useEffect(() => {
+    setCurPatientCard(
+      patientCard?.map((el) => ({
+        ...el,
+        dateT: dayjs(el.dateT).format("DD-MM-YYYY"),
+      }))
+    );
+  }, [patientCard]);
 
   const head: TableColumn[] = [
     { index: "doctor.fullName", name: "Врач" },
@@ -64,7 +76,7 @@ export const PatientCardPage = () => {
           />
         </div>
       </div>
-      <NTable head={head} data={patientCard}></NTable>
+      <NTable head={head} data={curPatientCard}></NTable>
     </div>
   );
 };

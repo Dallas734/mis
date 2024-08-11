@@ -134,7 +134,9 @@ export const DoctorTalonsPage = () => {
         <div className={cls.sideBox}>
           <label>Информация о записи</label>
           <br />
-          <label>Дата: {selectedElement?.dateT}</label>
+          <label>
+            Дата: {dayjs(selectedElement?.dateT).format("DD-MM-YYYY")}
+          </label>
           <br />
           <label>Время: {selectedElement?.timeT}</label>
           <br />
