@@ -15,6 +15,7 @@ import { Modal } from "../../../../features/Modal";
 import { DoctorApi } from "../../../../entities/Doctor/api/DoctorApi";
 import { SPECS } from "../../../../shared/types/constants";
 import toast from "react-hot-toast";
+//import { Autocomplete, TextField } from "@mui/material";
 
 interface ModalProps {
   isOpen: boolean;
@@ -42,6 +43,7 @@ export const DoctorModal = (props: ModalProps) => {
   const { data: genders } = GenderApi.useFetchAllGendersQuery();
   const [createDoctor] = DoctorApi.useCreateDoctorMutation();
   const [updateDoctor] = DoctorApi.useUpdateDoctorMutation();
+  //const [clear, setClear] = useState<boolean>(false);
 
   const classes = classNames("doctorModal").split(" ");
 
@@ -171,6 +173,60 @@ export const DoctorModal = (props: ModalProps) => {
               classes={selectClasses}
               required
             />
+            {/* <Autocomplete
+              options={specializations ? specializations : []}
+              renderInput={(params) => (
+                <TextField {...params} variant="outlined" />
+              )}
+              getOptionLabel={(opt) => opt.name}
+              size="small"
+              sx={{
+                "& .MuiInputBase-input": {
+                  height: 5
+                },
+                "& .MuiFormLabel-root": {
+                  margin: -1
+                }
+                // MuiInputBase: {
+                //   styleOverrides: {
+                //       root: {
+                //           "& .MuiInputBase-input": {
+                //               height: 10
+                //           }
+                //       }
+                //   }
+                // }
+              }}
+              onChange={(e, v) => setSpecializationId(v?.id.toString())}
+              key={`3-${clear}`}
+            /> */}
+            {/* <Autocomplete
+              options={areas ? areas : []}
+              renderInput={(params) => (
+                <TextField {...params} variant="outlined" label="Участок" />
+              )}
+              getOptionLabel={(opt) => opt.id.toString()}
+              size="small"
+              sx={{
+                "& .MuiInputBase-input": {
+                  height: 5
+                },
+                "& .MuiFormLabel-root": {
+                  margin: -1
+                }
+                // MuiInputBase: {
+                //   styleOverrides: {
+                //       root: {
+                //           "& .MuiInputBase-input": {
+                //               height: 10
+                //           }
+                //       }
+                //   }
+                // }
+              }}
+              onChange={(e, v) => setAreaId(v?.id.toString())}
+              key={`3-${clear}`}
+            /> */}
             <Select
               data={areas}
               selectValue={"id"}

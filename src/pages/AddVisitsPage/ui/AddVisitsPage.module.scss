@@ -65,11 +65,12 @@
 .labels {
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 33px;
 }
 
 .selects {
     display: flex;
     flex-direction: column;
     gap: 10px;
+    width: 200px;
 }

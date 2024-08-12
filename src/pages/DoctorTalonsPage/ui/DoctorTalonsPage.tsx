@@ -13,11 +13,11 @@ import dayjs from "dayjs";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { Visit } from "../../../entities/Visit";
 import { DiagnosisApi } from "../../../entities/Diagnosis/api/DiagnosisApi";
-import { Select } from "../../../shared/ui/Select";
 import classNames from "classnames";
 import { ProcedureApi } from "../../../entities/Procedure/api/ProcedureApi";
 import { Button } from "../../../shared/ui/Button";
 import toast from "react-hot-toast";
+import { Autocomplete, TextField } from "@mui/material";
 
 export const DoctorTalonsPage = () => {
   const [selectedDate, setSelectedDate] = useState<dayjs.Dayjs | null>(
@@ -31,13 +31,12 @@ export const DoctorTalonsPage = () => {
   const [completeVisit] = VisitsApi.useCompleteVisitMutation();
   const [activeId, setActiveId] = useState<number>();
   const [selectedElement, setSelectedElement] = useState<Visit | undefined>();
-  const [diagnosisId, setDiagnosisId] = useState<string>("");
-  const [procedureId, setProcedureId] = useState<string>("");
+  const [diagnosisId, setDiagnosisId] = useState<string>();
+  const [procedureId, setProcedureId] = useState<string>();
   const [recipe, setRecipe] = useState<string>("");
   const { data: diagnoses } = DiagnosisApi.useFetchAllDiagnosesQuery();
   const { data: procedures } = ProcedureApi.useFetchAllProceduresQuery();
 
-  const selectClasses = classNames("Select").split(" ");
 
   const createButtonClasses = classNames(
     "icon",
@@ -151,24 +150,46 @@ export const DoctorTalonsPage = () => {
           </label>
           <div className={cls.inputField}>
             <label>Диагноз:</label>
-            <Select
-              data={diagnoses}
-              selectValue={"id"}
-              selectLabel={"name"}
-              value={diagnosisId}
-              onChange={setDiagnosisId}
-              classes={selectClasses}
+            <Autocomplete
+              options={diagnoses ? diagnoses : []}
+              getOptionLabel={(opt) => opt.name}
+              size="small"
+              renderInput={(params) => (
+                <TextField {...params} variant="outlined" />
+              )}
+              sx={{
+                "& .MuiInputBase-input": {
+                  height: 5,
+                  fontSize: 13,
+                },
+                "& .MuiFormLabel-root": {
+                  margin: -1,
+                },
+              }}
+              onChange={(e, v) => setDiagnosisId(v?.id.toString())}
+              key={`3`}
             />
           </div>
           <div className={cls.inputField}>
             <label>Процедура:</label>
-            <Select
-              data={procedures}
-              selectValue={"id"}
-              selectLabel={"name"}
-              value={procedureId}
-              onChange={setProcedureId}
-              classes={selectClasses}
+            <Autocomplete
+              options={procedures ? procedures : []}
+              getOptionLabel={(opt) => opt.name}
+              size="small"
+              renderInput={(params) => (
+                <TextField {...params} variant="outlined" />
+              )}
+              sx={{
+                "& .MuiInputBase-input": {
+                  height: 5,
+                  fontSize: 13,
+                },
+                "& .MuiFormLabel-root": {
+                  margin: -1,
+                },
+              }}
+              onChange={(e, v) => setProcedureId(v?.id.toString())}
+              key={`3`}
             />
           </div>
           <div className={cls.inputField}>

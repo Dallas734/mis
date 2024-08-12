@@ -1,5 +1,4 @@
 import cls from "./AddVisitsPage.module.scss";
-import { Select } from "../../../shared/ui/Select";
 import { AreaApi } from "../../../entities/Area/api/AreaApi";
 import { SpecializationApi } from "../../../entities/Specialization/api/SpecializationApi";
 import { useEffect, useState } from "react";
@@ -22,6 +21,7 @@ import TableRow from "@mui/material/TableRow";
 import { Button } from "../../../shared/ui/Button";
 import { SPECS } from "../../../shared/types/constants";
 import toast from "react-hot-toast";
+import { Autocomplete, TextField } from "@mui/material";
 
 export const AddVisitsPage = () => {
   const { data: areas } = AreaApi.useFetchAllAreasQuery();
@@ -47,6 +47,9 @@ export const AddVisitsPage = () => {
   });
   const [activeId, setActiveId] = useState<number>();
   const [selectedElement, setSelectedElement] = useState<Visit | undefined>();
+  const [clear, setClear] = useState<boolean>(false);
+  const [clearDoctors, setClearDoctors] = useState<boolean>(false);
+  const [clearPatients, setClearPatients] = useState<boolean>(false);
 
   useEffect(() => {
     if (patientAreaId) {
@@ -74,9 +77,8 @@ export const AddVisitsPage = () => {
         );
       }
     }
-  }, [doctors, doctorAreaId, specializationId]);
-
-  const selectClasses = classNames("Select").split(" ");
+    console.log(doctorId);
+  }, [doctors, doctorAreaId, specializationId, doctorId]);
 
   const createButtonClasses = classNames(
     "icon",
@@ -90,6 +92,13 @@ export const AddVisitsPage = () => {
     "crud",
     "border-radius",
     "deleteButton"
+  ).split(" ");
+
+  const clearFilterButtonClasses = classNames(
+    "icon",
+    "crud",
+    "border-radius",
+    "clearFilterButton"
   ).split(" ");
 
   const handleCreateButton = async () => {
@@ -108,6 +117,12 @@ export const AddVisitsPage = () => {
     error ? toast.error("Ошибка!") : toast.success("Успешно!");
   };
 
+  const handleClearFilterButton = () => {
+    setClear(clear ? false : true);
+    setClearDoctors(clearDoctors ? false : true);
+    setClearPatients(clearPatients ? false : true);
+  };
+
   return (
     <div className={cls.page}>
       <div className={cls.inputs}>
@@ -124,39 +139,50 @@ export const AddVisitsPage = () => {
             <label>Врач</label>
           </div>
           <div className={cls.selects}>
-            <Select
-              data={specializations}
-              selectValue={"id"}
-              selectLabel={"name"}
-              value={specializationId}
-              onChange={(el) => {
-                setSpecializationId(el);
-                setDoctorId("");
+            <Autocomplete
+              options={specializations ? specializations : []}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  variant="outlined"
+                  label="Специализация"
+                />
+              )}
+              getOptionLabel={(opt) => opt.name}
+              size="small"
+              onChange={(e, v) => {
+                if (v?.id.toString()) {
+                  setSpecializationId(v?.id.toString());
+                } else {
+                  setDoctorId("");
+                  setDoctorAreaId("");
+                  setClearDoctors(clearDoctors ? false : true);
+                }
               }}
-              classes={selectClasses}
+              key={`2-${clear}`}
             />
-            <Select
-              data={areas}
-              selectValue={"id"}
-              selectLabel={"id"}
-              value={doctorAreaId}
-              onChange={(el) => {
-                setDoctorAreaId(el);
-                setDoctorId("");
-                setPatientId("");
-              }}
-              classes={selectClasses}
+            <Autocomplete
+              options={areas ? areas : []}
+              renderInput={(params) => (
+                <TextField {...params} variant="outlined" label="Участок" />
+              )}
+              getOptionLabel={(opt) => opt.id.toString()}
+              size="small"
+              onChange={(e, v) => setDoctorAreaId(v?.id.toString())}
               disabled={
                 specializationId === SPECS.AREA_DOCTOR_ID ? false : true
               }
+              key={`3-${clearDoctors}`}
             />
-            <Select
-              data={curDoctors}
-              selectValue={"id"}
-              selectLabel={"fullName"}
-              value={doctorId}
-              onChange={setDoctorId}
-              classes={selectClasses}
+            <Autocomplete
+              options={curDoctors ? curDoctors : []}
+              renderInput={(params) => (
+                <TextField {...params} variant="outlined" label="Врач" />
+              )}
+              getOptionLabel={(opt) => (opt.fullName ? opt.fullName : "")}
+              size="small"
+              onChange={(e, v) => setDoctorId(v?.id?.toString())}
+              key={`4-${clearDoctors}`}
             />
           </div>
         </div>
@@ -166,21 +192,38 @@ export const AddVisitsPage = () => {
             <label>Пациенты</label>
           </div>
           <div className={cls.selects}>
-            <Select
-              data={areas}
-              selectValue={"id"}
-              selectLabel={"id"}
-              value={patientAreaId}
-              onChange={setPatientAreaId}
-              classes={selectClasses}
+            <Autocomplete
+              options={areas ? areas : []}
+              renderInput={(params) => (
+                <TextField {...params} variant="outlined" label="Участок" />
+              )}
+              getOptionLabel={(opt) => opt.id.toString()}
+              size="small"
+              onChange={(e, v) => {
+                if (v?.id.toString()) {
+                  setPatientAreaId(v?.id.toString());
+                } else {
+                  setClearPatients(clearPatients ? false : true);
+                  setCurPatients(undefined);
+                  setPatientId("");
+                }
+              }}
+              key={`5-${clear}`}
             />
-            <Select
-              data={curPatients}
-              selectValue={"id"}
-              selectLabel={"fullName"}
-              value={patientId}
-              onChange={setPatientId}
-              classes={selectClasses}
+            <Autocomplete
+              options={curPatients ? curPatients : []}
+              renderInput={(params) => (
+                <TextField {...params} variant="outlined" label="Пациент" />
+              )}
+              getOptionLabel={(opt) => (opt.fullName ? opt.fullName : "")}
+              size="small"
+              onChange={(e, v) => setPatientId(v?.id?.toString())}
+              key={`6-${clearPatients}`}
+            />
+            <Button
+              children="Очистить фильтр"
+              classes={clearFilterButtonClasses}
+              onClick={handleClearFilterButton}
             />
           </div>
         </div>

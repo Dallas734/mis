@@ -1,8 +1,6 @@
 import cls from "./PatientCardPage.module.scss";
-import { Select } from "../../../shared/ui/Select";
 import { AreaApi } from "../../../entities/Area/api/AreaApi";
 import { useEffect, useState } from "react";
-import classNames from "classnames";
 import { PatientApi } from "../../../entities/Patient/api/PatientApi";
 import { Patient } from "../../../entities/Patient";
 import { TableColumn } from "../../../shared/types/TableColumn";
@@ -10,6 +8,7 @@ import { NTable } from "../../../shared/ui/Table";
 import { VisitsApi } from "../../../entities/Visit/api/VisitsApi";
 import { Visit } from "../../../entities/Visit";
 import dayjs from "dayjs";
+import { Autocomplete, TextField } from "@mui/material";
 
 export const PatientCardPage = () => {
   const { data: areas } = AreaApi.useFetchAllAreasQuery();
@@ -19,14 +18,18 @@ export const PatientCardPage = () => {
   const [patientId, setPatientId] = useState<string | undefined>();
   const { data: patientCard } = VisitsApi.useGetPatientCardQuery(patientId);
   const [curPatientCard, setCurPatientCard] = useState<Visit[] | undefined>();
-
-  const selectClasses = classNames("Select").split(" ");
+  const [clear, setClear] = useState<boolean>();
 
   useEffect(() => {
     if (areaId)
       setCurPatients(patients?.filter((p) => p.area?.id.toString() === areaId));
-    if (areaId === "") setCurPatients(undefined);
-  }, [areaId, patients]);
+    if (areaId === undefined) {
+      setCurPatients(undefined);
+      setClear(clear ? false : true);
+    }
+    console.log(areaId);
+    console.log(curPatients);
+  }, [areaId, patients, curPatients, clear]);
 
   useEffect(() => {
     setCurPatientCard(
@@ -55,24 +58,34 @@ export const PatientCardPage = () => {
       <div className={cls.inputs}>
         <div className={cls.inputField}>
           <label>Участок</label>
-          <Select
-            data={areas}
-            selectValue={"id"}
-            selectLabel={"id"}
-            value={areaId}
-            onChange={setAreaId}
-            classes={selectClasses}
+          <Autocomplete
+            options={areas ? areas : []}
+            renderInput={(params) => (
+              <TextField {...params} variant="outlined" />
+            )}
+            getOptionLabel={(opt) => opt.id.toString()}
+            size="small"
+            sx={{
+              width: 200,
+            }}
+            onChange={(e, v) => setAreaId(v?.id.toString())}
+            key={`5`}
           />
         </div>
         <div className={cls.inputField}>
           <label>Пациент</label>
-          <Select
-            data={curPatients}
-            selectValue={"id"}
-            selectLabel={"fullName"}
-            value={patientId}
-            onChange={setPatientId}
-            classes={selectClasses}
+          <Autocomplete
+            options={curPatients ? curPatients : []}
+            renderInput={(params) => (
+              <TextField {...params} variant="outlined" />
+            )}
+            getOptionLabel={(opt) => (opt.fullName ? opt.fullName : "")}
+            size="small"
+            sx={{
+              width: 200,
+            }}
+            onChange={(e, v) => setPatientId(v?.id?.toString())}
+            key={`6-${clear}`}
           />
         </div>
       </div>

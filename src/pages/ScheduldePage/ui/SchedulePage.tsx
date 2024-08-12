@@ -1,7 +1,6 @@
 import { AreaApi } from "../../../entities/Area/api/AreaApi";
 import { DoctorApi } from "../../../entities/Doctor/api/DoctorApi";
 import { SpecializationApi } from "../../../entities/Specialization/api/SpecializationApi";
-import { Select } from "../../../shared/ui/Select";
 import cls from "./SchedulePage.module.scss";
 import { useEffect, useState } from "react";
 import classNames from "classnames";
@@ -13,6 +12,7 @@ import { Button } from "../../../shared/ui/Button";
 import { Doctor } from "../../../entities/Doctor";
 import { SPECS } from "../../../shared/types/constants";
 import toast from "react-hot-toast";
+import { Autocomplete, TextField } from "@mui/material";
 
 export const SchedulePage = () => {
   const { data: areas } = AreaApi.useFetchAllAreasQuery();
@@ -26,8 +26,8 @@ export const SchedulePage = () => {
   const [areaId, setAreaId] = useState<string>();
   const [specializationId, setSpecializationId] = useState<string>();
   const [curSchedule, setCurSchedule] = useState<Schedule[]>();
-
-  const selectClasses = classNames("Select").split(" ");
+  const [clear, setClear] = useState<boolean>(false);
+  const [clearDoctors, setClearDoctors] = useState<boolean>(false);
 
   useEffect(() => {
     setCurSchedule(schedules);
@@ -76,39 +76,74 @@ export const SchedulePage = () => {
         <div className={cls.inputField}>
           <div className={cls.inputField}>
             <label>Специальность</label>
-            <Select
-              data={specializations}
-              selectValue={"id"}
-              selectLabel={"name"}
-              value={specializationId}
-              onChange={(e) => {
-                setSpecializationId(e);
-                setAreaId("");
-                setDoctorId("");
+            <Autocomplete
+              options={specializations ? specializations : []}
+              sx={{
+                width: 200,
               }}
-              classes={selectClasses}
+              renderInput={(params) => (
+                <TextField {...params} variant="outlined" />
+              )}
+              getOptionLabel={(opt) => opt.name}
+              size="small"
+              onChange={(e, v) => {
+                if (v?.id.toString()) {
+                  setSpecializationId(v?.id.toString());
+                } else {
+                  setDoctorId("");
+                  setAreaId("");
+                  setClear(clear ? false : true);
+                  setClearDoctors(clearDoctors ? false : true);
+                }
+              }}
+              key={`2-${clear}`}
             />
           </div>
-          <label>Участок</label>
-          <Select
-            data={areas}
-            selectValue={"id"}
-            selectLabel={"id"}
-            value={areaId}
-            onChange={setAreaId}
-            classes={selectClasses}
-            disabled={specializationId === SPECS.AREA_DOCTOR_ID ? false : true}
-          />
+          <div className={cls.inputField}>
+            <label>Участок</label>
+            <Autocomplete
+              options={areas ? areas : []}
+              sx={{
+                width: 200,
+              }}
+              renderInput={(params) => (
+                <TextField {...params} variant="outlined" />
+              )}
+              disabled={
+                specializationId === SPECS.AREA_DOCTOR_ID ? false : true
+              }
+              getOptionLabel={(opt) => opt.id.toString()}
+              size="small"
+              onChange={(e, v) => {
+                if (v?.id.toString()) {
+                  setAreaId(v?.id.toString());
+                } else {
+                  setDoctorId("");
+                  setAreaId("");
+                  //setDoctorAreaId("");
+                  setClearDoctors(clearDoctors ? false : true);
+                }
+              }}
+              key={`3-${clear}`}
+            />
+          </div>
         </div>
         <div className={cls.inputField}>
           <label>Врач</label>
-          <Select
-            data={curDoctors}
-            selectValue={"id"}
-            selectLabel={"fullName"}
-            value={doctorId}
-            onChange={setDoctorId}
-            classes={selectClasses}
+          <Autocomplete
+            options={curDoctors ? curDoctors : []}
+            sx={{
+              width: 200,
+            }}
+            renderInput={(params) => (
+              <TextField {...params} variant="outlined" />
+            )}
+            getOptionLabel={(opt) => (opt.fullName ? opt.fullName : "")}
+            size="small"
+            onChange={(e, v) => {
+              setDoctorId(v?.id?.toString());
+            }}
+            key={`2-${clearDoctors}`}
           />
         </div>
       </div>
