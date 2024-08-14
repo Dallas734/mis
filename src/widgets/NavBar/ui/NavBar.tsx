@@ -28,10 +28,12 @@ import { UserApi } from "../../../entities/User/api/UserApi";
 import { Button } from "../../../shared/ui/Button";
 import classNames from "classnames";
 import { useNavigate } from "react-router-dom";
+import { DoctorApi } from "../../../entities/Doctor/api/DoctorApi";
 
 export const NavBar = () => {
   const [isCollapsed, setIsCollaspsed] = useState<boolean>(false);
   const { data: user } = UserApi.useIsAuthQuery();
+  const { data: doctors } = DoctorApi.useFetchAllDoctorsQuery();
 
   const [logoff] = UserApi.useLogoffMutation();
 
@@ -61,7 +63,14 @@ export const NavBar = () => {
           >
             МИС
           </MenuItem>
-          <div>Копонент Аккаунта</div>
+          {user?.doctorId ? (
+            <div className={cls.account}>
+              Здравствуйте,{" "}
+              {doctors?.find((d) => d.id === user?.doctorId)?.fullName}
+            </div>
+          ) : (
+            <div className={cls.account}>Здравствуйте, {user?.username}</div>
+          )}
           {user?.roles.includes("Registrator") ? (
             <>
               <SubMenu label="Персонал" icon={<Person />}>
