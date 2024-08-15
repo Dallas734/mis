@@ -25,6 +25,7 @@ import {
     getRouteWorkloadDiagnosisReport
 } from '../../../../shared/const/router';
 import { AppRoutesProps } from '../../../../shared/types/AppRouter';
+import { ROLES } from '../../../../shared/types/constants';
 
 export const routeConfig: Record<AppRoutes, AppRoutesProps> = {
     [AppRoutes.LOGIN]: {
@@ -37,42 +38,52 @@ export const routeConfig: Record<AppRoutes, AppRoutesProps> = {
     },
     [AppRoutes.MAIN]: {
         path: getRouteMain(),
-        element: <></>
+        element: <></>,
+        roles: [ROLES.REGISTRATOR, ROLES.DOCTOR]
     },
     [AppRoutes.DOCTORS]: {
         path: getRouteDoctors(),
-        element: <DoctorsPage />
+        element: <DoctorsPage />,
+        roles: [ROLES.REGISTRATOR]
     },
     [AppRoutes.PATIENTS]: {
         path: getRoutePatients(),
-        element: <PatientsPage />
+        element: <PatientsPage />,
+        roles: [ROLES.REGISTRATOR]
     },
     [AppRoutes.ADD_VISIT]: {
         path: getRouteAddVisit(),
-        element: <AddVisitsPage  />
+        element: <AddVisitsPage  />,
+        roles: [ROLES.REGISTRATOR]
     },
     [AppRoutes.SCHEDULE]: {
         path: getRouteSchedule(),
-        element: <SchedulePage />
+        element: <SchedulePage />,
+        roles: [ROLES.REGISTRATOR]
     },
     [AppRoutes.PATIENT_CARD]: {
         path: getRoutePatientCard(),
-        element: <PatientCardPage />
+        element: <PatientCardPage />,
+        roles: [ROLES.DOCTOR]
     },
     [AppRoutes.DOCTOR_TALONS]: {
         path: getRouteDoctorTalons(),
-        element: <DoctorTalonsPage />
+        element: <DoctorTalonsPage />,
+        roles: [ROLES.DOCTOR]
     },
     [AppRoutes.WORKLOAD_AREA_REPORT]: {
         path: getRouteWorkloadAreaReport(),
-        element: <WorkloadAreaReportPage />
+        element: <WorkloadAreaReportPage />,
+        roles: [ROLES.REGISTRATOR]
     },
     [AppRoutes.WORKLOAD_DOCTOR_REPORT]: {
         path: getRouteworkloadDoctorReport(),
-        element: <WorkloadDoctorReportPage />
+        element: <WorkloadDoctorReportPage />,
+        roles: [ROLES.REGISTRATOR]
     },
     [AppRoutes.WORKLOAD_DIAGNOSIS_REPORT]: {
         path: getRouteWorkloadDiagnosisReport(),
-        element: <WorkloadDiagnosisReportPage />
+        element: <WorkloadDiagnosisReportPage />,
+        roles: [ROLES.DOCTOR]
     }
 };

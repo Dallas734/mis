@@ -71,7 +71,7 @@ export const NavBar = () => {
           ) : (
             <div className={cls.account}>Здравствуйте, {user?.username}</div>
           )}
-          {user?.roles.includes("Registrator") ? (
+          {user?.roles?.includes("Registrator") ? (
             <>
               <SubMenu label="Персонал" icon={<Person />}>
                 <MenuItem
@@ -116,7 +116,7 @@ export const NavBar = () => {
                 </MenuItem>
               </SubMenu>
             </>
-          ) : user?.roles.includes("Doctor") ? (
+          ) : user?.roles?.includes("Doctor") ? (
             <>
               <MenuItem
                 component={<Link to={getRoutePatientCard()} />}
