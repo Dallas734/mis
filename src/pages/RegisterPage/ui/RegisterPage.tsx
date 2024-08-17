@@ -1,4 +1,4 @@
-import { RegisterForm } from "../../../features/RegisterForm";
+import { RegisterForm } from "../../../widgets/RegisterForm";
 import cls from "./RegisterPage.module.scss";
 
 export const RegisterPage = () => {

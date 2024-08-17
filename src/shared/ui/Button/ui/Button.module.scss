@@ -19,7 +19,8 @@
 
 .loginButton,
 .createButton,
-.registerButton {
+.registerButton,
+.createPdfButton {
   &:not(:disabled) {
     &:hover {
       background-color: var(--color-main);

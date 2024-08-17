@@ -1,5 +1,5 @@
 // import classNames from "classnames";
-import { LoginForm } from "../../../features/LoginForm";
+import { LoginForm } from "../../../widgets/LoginForm";
 import cls from "./LoginPage.module.scss";
 
 export const LoginPage = () => {
