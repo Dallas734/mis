@@ -94,7 +94,17 @@ export const WorkloadAreaReportPage = () => {
           <Button
             children="PDF"
             onClick={() =>
-              handleCreatePdfButton(<PdfReport head={head} data={report} />)
+              handleCreatePdfButton(
+                <PdfReport
+                  head={head}
+                  data={report}
+                  title="Загруженность участков"
+                  dates={[
+                    beginDate?.format("DD-MM-YYYY"),
+                    endDate?.format("DD-MM-YYYY"),
+                  ]}
+                />
+              )
             }
             classes={createPdfButtonClasses}
           />

@@ -13,6 +13,8 @@ export interface ReportProps<T> {
   data?: Array<T>;
   chart?: ReactElement;
   head?: TableColumn[];
+  dates?: Array<string | undefined>;
+  title?: string;
 }
 
 Font.register({
@@ -78,12 +80,32 @@ const getProperty = (
 };
 
 export const PdfReport = <T extends Object>(props: ReportProps<T>) => {
-  const { data, head } = props;
+  const { data, head, title, dates } = props;
   // const numOfProperties = head?.length;
 
   return (
     <Document>
       <Page style={styles.page}>
+        <View
+          style={{
+            textAlign: "center",
+            fontSize: 15,
+            marginRight: 30,
+            fontFamily: "Roboto",
+            flexDirection: "column",
+          }}
+        >
+          <Text>Отчет</Text>
+          <Text>{title}</Text>
+          {dates ? (
+            <Text>
+              с {dates[0]} по {dates[1]}
+            </Text>
+          ) : (
+            <></>
+          )}
+        </View>
+        {/* <View>{""}</View> */}
         <View style={{ width: "100%", flexDirection: "row", marginTop: 10 }}>
           {head?.map((header) => (
             <View style={styles.theader}>
