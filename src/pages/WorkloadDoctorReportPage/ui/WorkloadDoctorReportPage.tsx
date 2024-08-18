@@ -8,6 +8,13 @@ import classNames from "classnames";
 import { PieChart, Pie, Cell, Tooltip, Legend } from "recharts";
 import { ReportApi } from "../../../entities/Report/api/ReportApi";
 import { WorkloadDoctorReport } from "../../../entities/Report";
+import { ReactElement } from "react";
+import { pdf } from "@react-pdf/renderer";
+import { saveAs } from "file-saver";
+import { Button } from "../../../shared/ui/Button";
+import { PdfReport } from "../../../features/PdfReport";
+import { TableColumn } from "../../../shared/types/TableColumn";
+import { ReportTypes } from "../../../shared/types/ReportTypes";
 
 export const WorkloadDoctorReportPage = () => {
   const [beginDate, setBeginDate] = useState<dayjs.Dayjs | null>(
@@ -23,6 +30,18 @@ export const WorkloadDoctorReportPage = () => {
     specId,
   });
   const [chartData, setChartData] = useState<WorkloadDoctorReport[]>();
+
+  const createPdfButtonClasses = classNames(
+    "icon",
+    "crud",
+    "border-radius",
+    "createPdfButton"
+  ).split(" ");
+
+  const handleCreatePdfButton = async (pdfDocumentComponent: ReactElement) => {
+    const blob = await pdf(pdfDocumentComponent).toBlob();
+    saveAs(blob, "WorkloadDoctorReport.pdf");
+  };
 
   useEffect(() => {
     setChartData(
@@ -40,6 +59,17 @@ export const WorkloadDoctorReportPage = () => {
 
   const renderLable = (entry: WorkloadDoctorReport) => entry.workload + "%";
 
+  const head: TableColumn[] = [
+    {
+      index: "doctor.fullName",
+      name: "ФИО",
+    },
+    {
+      index: "workload",
+      name: "Загруженность",
+    },
+  ];
+
   return (
     <>
       <div className={cls.page}>
@@ -53,6 +83,25 @@ export const WorkloadDoctorReportPage = () => {
           <DatePicker
             value={endDate}
             onChange={(newValue) => setEndDate(newValue)}
+          />
+          <Button
+            children="Экспорт в PDF"
+            onClick={() =>
+              handleCreatePdfButton(
+                <PdfReport
+                  head={head}
+                  data={report}
+                  dates={[
+                    beginDate?.format("DD-MM-YYYY"),
+                    endDate?.format("DD-MM-YYYY"),
+                  ]}
+                  type={ReportTypes.WorkloadDoctorReport}
+                  spec={specializations?.find(s => s.id.toString() === specId)?.name}
+                />
+              )
+            }
+            classes={createPdfButtonClasses}
+            disabled={specId ? false : true}
           />
         </div>
         <div className={cls.inputs}>

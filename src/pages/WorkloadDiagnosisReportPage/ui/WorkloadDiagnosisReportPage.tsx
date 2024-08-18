@@ -6,6 +6,15 @@ import dayjs from "dayjs";
 import { UserApi } from "../../../entities/User/api/UserApi";
 import { ReportApi } from "../../../entities/Report/api/ReportApi";
 import { WorkloadDiagnosisReport } from "../../../entities/Report";
+import { ReactElement } from "react";
+import { saveAs } from "file-saver";
+import classNames from "classnames";
+import { pdf } from "@react-pdf/renderer";
+import { TableColumn } from "../../../shared/types/TableColumn";
+import { Button } from "../../../shared/ui/Button";
+import { PdfReport } from "../../../features/PdfReport";
+import { ReportTypes } from "../../../shared/types/ReportTypes";
+import { DoctorApi } from "../../../entities/Doctor/api/DoctorApi";
 
 export const WorkloadDiagnosisReportPage = () => {
   const [beginDate, setBeginDate] = useState<dayjs.Dayjs | null>(
@@ -18,6 +27,8 @@ export const WorkloadDiagnosisReportPage = () => {
     endDate,
     doctorId: user?.doctorId?.toString(),
   });
+  const { data: doctors } = DoctorApi.useFetchAllDoctorsQuery();
+
   const [chartData, setChartData] = useState<WorkloadDiagnosisReport[]>();
 
   useEffect(() => {
@@ -33,6 +44,29 @@ export const WorkloadDiagnosisReportPage = () => {
 
   const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
 
+  const createPdfButtonClasses = classNames(
+    "icon",
+    "crud",
+    "border-radius",
+    "createPdfButton"
+  ).split(" ");
+
+  const handleCreatePdfButton = async (pdfDocumentComponent: ReactElement) => {
+    const blob = await pdf(pdfDocumentComponent).toBlob();
+    saveAs(blob, "WorkloadDiagnosisReport.pdf");
+  };
+
+  const head: TableColumn[] = [
+    {
+      index: "name",
+      name: "Название",
+    },
+    {
+      index: "workload",
+      name: "Частота",
+    },
+  ];
+
   return (
     <>
       <div className={cls.page}>
@@ -46,6 +80,25 @@ export const WorkloadDiagnosisReportPage = () => {
           <DatePicker
             value={endDate}
             onChange={(newValue) => setEndDate(newValue)}
+          />
+          <Button
+            children="Экспорт в PDF"
+            onClick={() =>
+              handleCreatePdfButton(
+                <PdfReport
+                  head={head}
+                  data={report}
+                  dates={[
+                    beginDate?.format("DD-MM-YYYY"),
+                    endDate?.format("DD-MM-YYYY"),
+                  ]}
+                  type={ReportTypes.WorkloadDiagnosisReport}
+                  doctor={doctors?.find(d => d.id === user?.doctorId)}
+                  spec={doctors?.find(d => d.id === user?.doctorId)?.specialization?.name}
+                />
+              )
+            }
+            classes={createPdfButtonClasses}
           />
         </div>
         <div className={cls.chart}>

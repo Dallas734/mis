@@ -8,13 +8,17 @@ import {
   Font,
 } from "@react-pdf/renderer";
 import { TableColumn } from "../../../shared/types/TableColumn";
+import { ReportTypes } from "../../../shared/types/ReportTypes";
+import { Doctor } from "../../../entities/Doctor";
 
 export interface ReportProps<T> {
   data?: Array<T>;
   chart?: ReactElement;
   head?: TableColumn[];
   dates?: Array<string | undefined>;
-  title?: string;
+  type: ReportTypes;
+  spec?: string;
+  doctor?: Doctor;
 }
 
 Font.register({
@@ -57,6 +61,7 @@ const styles = StyleSheet.create({
     borderColor: "whitesmoke",
     borderRightWidth: 1,
     borderBottomWidth: 1,
+    fontFamily: "Roboto"
   },
 });
 
@@ -80,8 +85,7 @@ const getProperty = (
 };
 
 export const PdfReport = <T extends Object>(props: ReportProps<T>) => {
-  const { data, head, title, dates } = props;
-  // const numOfProperties = head?.length;
+  const { data, head, dates, type, spec, doctor } = props;
 
   return (
     <Document>
@@ -96,7 +100,15 @@ export const PdfReport = <T extends Object>(props: ReportProps<T>) => {
           }}
         >
           <Text>Отчет</Text>
-          <Text>{title}</Text>
+          <Text>
+            {type === ReportTypes.WorkloadAreaReport
+              ? "Загруженность участков"
+              : type === ReportTypes.WorkloadDiagnosisReport
+              ? "Статистика поставленных диагнозов"
+              : type === ReportTypes.WorkloadDoctorReport
+              ? `Загруженность врачей специализации: ${spec}`
+              : ""}
+          </Text>
           {dates ? (
             <Text>
               с {dates[0]} по {dates[1]}
@@ -105,7 +117,14 @@ export const PdfReport = <T extends Object>(props: ReportProps<T>) => {
             <></>
           )}
         </View>
-        {/* <View>{""}</View> */}
+        {type === ReportTypes.WorkloadDiagnosisReport ? (
+          <View style={{fontFamily: "Roboto"}}>
+            <Text>{`Врач: ${doctor?.fullName}`}</Text>
+            <Text>{`Специальность: ${spec}`}</Text>
+          </View>
+        ) : (
+          <></>
+        )}
         <View style={{ width: "100%", flexDirection: "row", marginTop: 10 }}>
           {head?.map((header) => (
             <View style={styles.theader}>

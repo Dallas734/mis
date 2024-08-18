@@ -13,6 +13,7 @@ import { pdf } from "@react-pdf/renderer";
 import { PdfReport } from "../../../features/PdfReport";
 import { saveAs } from "file-saver";
 import { TableColumn } from "../../../shared/types/TableColumn";
+import { ReportTypes } from "../../../shared/types/ReportTypes";
 
 interface ChartProps {
   data: BarChartData[] | undefined;
@@ -74,7 +75,7 @@ export const WorkloadAreaReportPage = () => {
 
   const handleCreatePdfButton = async (pdfDocumentComponent: ReactElement) => {
     const blob = await pdf(pdfDocumentComponent).toBlob();
-    saveAs(blob, "example.pdf");
+    saveAs(blob, "WorkloadAreaReport.pdf");
   };
 
   return (
@@ -92,17 +93,17 @@ export const WorkloadAreaReportPage = () => {
             onChange={(newValue) => setEndDate(newValue)}
           />
           <Button
-            children="PDF"
+            children="Экспорт в PDF"
             onClick={() =>
               handleCreatePdfButton(
                 <PdfReport
                   head={head}
                   data={report}
-                  title="Загруженность участков"
                   dates={[
                     beginDate?.format("DD-MM-YYYY"),
                     endDate?.format("DD-MM-YYYY"),
                   ]}
+                  type={ReportTypes.WorkloadAreaReport}
                 />
               )
             }
