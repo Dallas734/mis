@@ -15,12 +15,11 @@ import { Button } from "../../../shared/ui/Button";
 import { PdfReport } from "../../../features/PdfReport";
 import { ReportTypes } from "../../../shared/types/ReportTypes";
 import { DoctorApi } from "../../../entities/Doctor/api/DoctorApi";
+import toast from "react-hot-toast";
 
 export const WorkloadDiagnosisReportPage = () => {
-  const [beginDate, setBeginDate] = useState<dayjs.Dayjs | null>(
-    dayjs(new Date())
-  );
-  const [endDate, setEndDate] = useState<dayjs.Dayjs | null>(dayjs(new Date()));
+  const [beginDate, setBeginDate] = useState<dayjs.Dayjs>(dayjs(new Date()));
+  const [endDate, setEndDate] = useState<dayjs.Dayjs>(dayjs(new Date()));
   const { data: user } = UserApi.useIsAuthQuery();
   const { data: report } = ReportApi.useMakeWorkloadDiagnosisReportQuery({
     beginDate,
@@ -39,6 +38,12 @@ export const WorkloadDiagnosisReportPage = () => {
       }))
     );
   }, [report, chartData]);
+
+  useEffect(() => {
+    if (beginDate > endDate) {
+      toast.error("Начальная дата, не может быть больше конечной!");
+    }
+  }, [beginDate, endDate]);
 
   const renderLable = (entry: WorkloadDiagnosisReport) => entry.workload + "%";
 
@@ -74,12 +79,16 @@ export const WorkloadDiagnosisReportPage = () => {
           <label className={cls.label}>Начало: </label>
           <DatePicker
             value={beginDate}
-            onChange={(newValue) => setBeginDate(newValue)}
+            onChange={(newValue) =>
+              setBeginDate(newValue ? newValue : dayjs(new Date()))
+            }
           />
           <label className={cls.label}>Конец: </label>
           <DatePicker
             value={endDate}
-            onChange={(newValue) => setEndDate(newValue)}
+            onChange={(newValue) =>
+              setEndDate(newValue ? newValue : dayjs(new Date()))
+            }
           />
           <Button
             children="Экспорт в PDF"
@@ -93,12 +102,16 @@ export const WorkloadDiagnosisReportPage = () => {
                     endDate?.format("DD-MM-YYYY"),
                   ]}
                   type={ReportTypes.WorkloadDiagnosisReport}
-                  doctor={doctors?.find(d => d.id === user?.doctorId)}
-                  spec={doctors?.find(d => d.id === user?.doctorId)?.specialization?.name}
+                  doctor={doctors?.find((d) => d.id === user?.doctorId)}
+                  spec={
+                    doctors?.find((d) => d.id === user?.doctorId)
+                      ?.specialization?.name
+                  }
                 />
               )
             }
             classes={createPdfButtonClasses}
+            disabled={beginDate > endDate ? true : false}
           />
         </div>
         <div className={cls.chart}>

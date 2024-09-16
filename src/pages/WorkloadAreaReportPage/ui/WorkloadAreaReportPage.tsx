@@ -14,6 +14,7 @@ import { PdfReport } from "../../../features/PdfReport";
 import { saveAs } from "file-saver";
 import { TableColumn } from "../../../shared/types/TableColumn";
 import { ReportTypes } from "../../../shared/types/ReportTypes";
+import toast from "react-hot-toast";
 
 interface ChartProps {
   data: BarChartData[] | undefined;
@@ -41,10 +42,14 @@ export const WorkloadAreaReportPage = () => {
     "createPdfButton"
   ).split(" ");
 
-  const [beginDate, setBeginDate] = useState<dayjs.Dayjs | null>(
-    dayjs(new Date())
-  );
-  const [endDate, setEndDate] = useState<dayjs.Dayjs | null>(dayjs(new Date()));
+  const [beginDate, setBeginDate] = useState<dayjs.Dayjs>(dayjs(new Date()));
+  const [endDate, setEndDate] = useState<dayjs.Dayjs>(dayjs(new Date()));
+
+  useEffect(() => {
+    if (beginDate > endDate) {
+      toast.error("Начальная дата, не может быть больше конечной!");
+    }
+  }, [beginDate, endDate]);
 
   const { data: report } = ReportApi.useMakeWorkloadAreaReportQuery({
     beginDate,
@@ -85,12 +90,16 @@ export const WorkloadAreaReportPage = () => {
           <label className={cls.label}>Начало: </label>
           <DatePicker
             value={beginDate}
-            onChange={(newValue) => setBeginDate(newValue)}
+            onChange={(newValue) =>
+              setBeginDate(newValue ? newValue : dayjs(new Date()))
+            }
           />
           <label className={cls.label}>Конец: </label>
           <DatePicker
             value={endDate}
-            onChange={(newValue) => setEndDate(newValue)}
+            onChange={(newValue) =>
+              setEndDate(newValue ? newValue : dayjs(new Date()))
+            }
           />
           <Button
             children="Экспорт в PDF"
@@ -108,6 +117,7 @@ export const WorkloadAreaReportPage = () => {
               )
             }
             classes={createPdfButtonClasses}
+            disabled={beginDate > endDate ? true : false}
           />
         </div>
         <div className={cls.chart}>

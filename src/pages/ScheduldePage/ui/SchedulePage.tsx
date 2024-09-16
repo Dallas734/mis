@@ -66,8 +66,19 @@ export const SchedulePage = () => {
   ).split(" ");
 
   const handleSaveClick = async () => {
-    const { error } = await updateSchedule(curSchedule);
-    error ? toast.error("Ошибка!") : toast.success("Успешно!");
+    let flag: boolean = true;
+    curSchedule?.forEach(async (s) => {
+      if (
+        Number(s.beginTime?.split(":")[0]) > Number(s.endTime?.split(":")[0])
+      ) {
+        toast.error("Начальное время не может быть больше конечного!");
+        flag = false;
+      }
+    });
+    if (flag) {
+      const { error } = await updateSchedule(curSchedule);
+      error ? toast.error("Ошибка!") : toast.success("Успешно!");
+    }
   };
 
   return (

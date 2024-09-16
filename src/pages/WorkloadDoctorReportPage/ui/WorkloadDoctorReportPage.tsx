@@ -15,12 +15,11 @@ import { Button } from "../../../shared/ui/Button";
 import { PdfReport } from "../../../features/PdfReport";
 import { TableColumn } from "../../../shared/types/TableColumn";
 import { ReportTypes } from "../../../shared/types/ReportTypes";
+import toast from "react-hot-toast";
 
 export const WorkloadDoctorReportPage = () => {
-  const [beginDate, setBeginDate] = useState<dayjs.Dayjs | null>(
-    dayjs(new Date())
-  );
-  const [endDate, setEndDate] = useState<dayjs.Dayjs | null>(dayjs(new Date()));
+  const [beginDate, setBeginDate] = useState<dayjs.Dayjs>(dayjs(new Date()));
+  const [endDate, setEndDate] = useState<dayjs.Dayjs>(dayjs(new Date()));
   const [specId, setSpecId] = useState<string>();
   const { data: specializations } =
     SpecializationApi.useFetchAllSpecializationsQuery();
@@ -53,6 +52,12 @@ export const WorkloadDoctorReportPage = () => {
     );
   }, [report]);
 
+  useEffect(() => {
+    if (beginDate > endDate) {
+      toast.error("Начальная дата, не может быть больше конечной!");
+    }
+  }, [beginDate, endDate]);
+
   const selectClasses = classNames("Select").split(" ");
 
   const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
@@ -77,12 +82,16 @@ export const WorkloadDoctorReportPage = () => {
           <label className={cls.label}>Начало: </label>
           <DatePicker
             value={beginDate}
-            onChange={(newValue) => setBeginDate(newValue)}
+            onChange={(newValue) =>
+              setBeginDate(newValue ? newValue : dayjs(new Date()))
+            }
           />
           <label className={cls.label}>Конец: </label>
           <DatePicker
             value={endDate}
-            onChange={(newValue) => setEndDate(newValue)}
+            onChange={(newValue) =>
+              setEndDate(newValue ? newValue : dayjs(new Date()))
+            }
           />
           <Button
             children="Экспорт в PDF"
@@ -96,12 +105,15 @@ export const WorkloadDoctorReportPage = () => {
                     endDate?.format("DD-MM-YYYY"),
                   ]}
                   type={ReportTypes.WorkloadDoctorReport}
-                  spec={specializations?.find(s => s.id.toString() === specId)?.name}
+                  spec={
+                    specializations?.find((s) => s.id.toString() === specId)
+                      ?.name
+                  }
                 />
               )
             }
             classes={createPdfButtonClasses}
-            disabled={specId ? false : true}
+            disabled={specId && beginDate < endDate ? false : true}
           />
         </div>
         <div className={cls.inputs}>

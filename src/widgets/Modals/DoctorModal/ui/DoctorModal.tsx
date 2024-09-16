@@ -15,7 +15,6 @@ import { Modal } from "../../../../features/Modal";
 import { DoctorApi } from "../../../../entities/Doctor/api/DoctorApi";
 import { SPECS } from "../../../../shared/types/constants";
 import toast from "react-hot-toast";
-//import { Autocomplete, TextField } from "@mui/material";
 
 interface ModalProps {
   isOpen: boolean;
@@ -43,7 +42,6 @@ export const DoctorModal = (props: ModalProps) => {
   const { data: genders } = GenderApi.useFetchAllGendersQuery();
   const [createDoctor] = DoctorApi.useCreateDoctorMutation();
   const [updateDoctor] = DoctorApi.useUpdateDoctorMutation();
-  //const [clear, setClear] = useState<boolean>(false);
 
   const classes = classNames("doctorModal").split(" ");
 
@@ -152,9 +150,27 @@ export const DoctorModal = (props: ModalProps) => {
             <label>Пол</label>
           </div>
           <div className={cls.inputs}>
-            <Input onChange={setLastName} value={lastName} required />
-            <Input onChange={setFirstName} value={firstName} required />
-            <Input onChange={setSurname} value={surname} required />
+            <Input
+              onChange={setLastName}
+              value={lastName}
+              required
+              pattern="^[а-яА-ЯёЁ]+$"
+              title={"Допустим ввод только кириллицы без специальных символов"}
+            />
+            <Input
+              onChange={setFirstName}
+              value={firstName}
+              required
+              pattern="^[а-яА-ЯёЁ]+$"
+              title={"Допустим ввод только кириллицы без специальных символов"}
+            />
+            <Input
+              onChange={setSurname}
+              value={surname}
+              required
+              pattern="^[а-яА-ЯёЁ]+$"
+              title={"Допустим ввод только кириллицы без специальных символов"}
+            />
             <Input
               type="date"
               onChange={setDateOfBirth}

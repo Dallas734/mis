@@ -6,19 +6,19 @@ import { WorkloadDoctorReport } from "../types/WorkloadDoctorReport";
 import { WorkloadDiagnosisReport } from "../types/WorkloadDiagnosisReport";
 
 interface WorkloadAreaReportArgs {
-  beginDate: dayjs.Dayjs | null;
-  endDate: dayjs.Dayjs | null;
+  beginDate: dayjs.Dayjs;
+  endDate: dayjs.Dayjs;
 }
 
 interface WorkloadDoctorReportArgs {
-  beginDate: dayjs.Dayjs | null;
-  endDate: dayjs.Dayjs | null;
+  beginDate: dayjs.Dayjs;
+  endDate: dayjs.Dayjs;
   specId?: string;
 }
 
 interface WorkloadDiagnosisReportArgs {
-  beginDate: dayjs.Dayjs | null;
-  endDate: dayjs.Dayjs | null;
+  beginDate: dayjs.Dayjs;
+  endDate: dayjs.Dayjs;
   doctorId?: string;
 }
 
@@ -33,7 +33,8 @@ export const ReportApi = createApi({
     >({
       query: (args) => {
         const { beginDate, endDate } = args;
-        return {
+         if (beginDate > endDate) {throw new Error("Error in dates")}
+         return {
           url: `Reports/WorkLoadAreaReport?begin=${beginDate?.format(
             "YYYY-MM-DD"
           )}&end=${endDate?.format("YYYY-MM-DD")}`,
@@ -47,6 +48,7 @@ export const ReportApi = createApi({
     >({
       query: (args) => {
         const { beginDate, endDate, specId } = args;
+        if (beginDate > endDate) {throw new Error("Error in dates")}
         return {
           url: `Reports/WorkloadDoctorReport?begin=${beginDate?.format(
             "YYYY-MM-DD"
@@ -61,6 +63,7 @@ export const ReportApi = createApi({
     >({
       query: (args) => {
         const { beginDate, endDate, doctorId } = args;
+        if (beginDate > endDate) {throw new Error("Error in dates")}
         return {
           url: `Reports/WorkloadDiagnosisReport?begin=${beginDate?.format(
             "YYYY-MM-DD"

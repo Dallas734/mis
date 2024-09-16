@@ -137,9 +137,27 @@ export const PatientModal = (props: ModalProps) => {
             <label>Место работы</label>
           </div>
           <div className={cls.inputs}>
-            <Input onChange={setLastName} value={lastName} required />
-            <Input onChange={setFirstName} value={firstName} required />
-            <Input onChange={setSurname} value={surname} required />
+            <Input
+              onChange={setLastName}
+              value={lastName}
+              required
+              pattern="^[а-яА-ЯёЁ]+$"
+              title={"Допустим ввод только кириллицы без специальных символов"}
+            />
+            <Input
+              onChange={setFirstName}
+              value={firstName}
+              required
+              pattern="^[а-яА-ЯёЁ]+$"
+              title={"Допустим ввод только кириллицы без специальных символов"}
+            />
+            <Input
+              onChange={setSurname}
+              value={surname}
+              required
+              pattern="^[а-яА-ЯёЁ]+$"
+              title={"Допустим ввод только кириллицы без специальных символов"}
+            />
             <Input
               type="date"
               onChange={setDateOfBirth}
@@ -163,8 +181,22 @@ export const PatientModal = (props: ModalProps) => {
               onChange={setAreaId}
               classes={selectClasses}
             />
-            <Input onChange={setPolis} value={polis} maxLength={16} required />
-            <Input onChange={setWorkPlace} value={workPlace} required />
+            <Input
+              onChange={setPolis}
+              value={polis}
+              maxLength={16}
+              minLength={16}
+              required
+              pattern="^\d+$"
+              title={"Допустим ввод только цифр, обязательная длина: 16"}
+            />
+            <Input
+              onChange={setWorkPlace}
+              value={workPlace}
+              required
+              pattern="^[а-яА-ЯёЁ]+$"
+              title={"Допустим ввод только кириллицы без специальных символов"}
+            />
           </div>
         </div>
         <div className={cls.buttons}>
