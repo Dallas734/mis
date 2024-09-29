@@ -141,22 +141,28 @@ export const PatientModal = (props: ModalProps) => {
               onChange={setLastName}
               value={lastName}
               required
-              pattern="^[а-яА-ЯёЁ]+$"
-              title={"Допустим ввод только кириллицы без специальных символов"}
+              pattern="^[а-яА-ЯёЁ-]+$"
+              title={"Допустим ввод только кириллицы длиной от 2 до 30 символов, без специальных символов"}
+              minLength={2}
+              maxLength={30}
             />
             <Input
               onChange={setFirstName}
               value={firstName}
               required
-              pattern="^[а-яА-ЯёЁ]+$"
-              title={"Допустим ввод только кириллицы без специальных символов"}
+              pattern="^[а-яА-ЯёЁ-]+$"
+              title={"Допустим ввод только кириллицы длиной от 2 до 30 символов, без специальных символов"}
+              minLength={2}
+              maxLength={30}
             />
             <Input
               onChange={setSurname}
               value={surname}
               required
-              pattern="^[а-яА-ЯёЁ]+$"
-              title={"Допустим ввод только кириллицы без специальных символов"}
+              pattern="^[а-яА-ЯёЁ-]+$"
+              title={"Допустим ввод только кириллицы длиной от 2 до 30 символов, без специальных символов"}
+              minLength={2}
+              maxLength={30}
             />
             <Input
               type="date"
@@ -194,7 +200,7 @@ export const PatientModal = (props: ModalProps) => {
               onChange={setWorkPlace}
               value={workPlace}
               required
-              pattern="^[а-яА-ЯёЁ]+$"
+              pattern="^[а-яА-Я0-9ёЁ-]+$"
               title={"Допустим ввод только кириллицы без специальных символов"}
             />
           </div>
