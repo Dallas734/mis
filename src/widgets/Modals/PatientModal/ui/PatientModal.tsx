@@ -177,6 +177,7 @@ export const PatientModal = (props: ModalProps) => {
               value={genderId}
               onChange={setGenderId}
               classes={selectClasses}
+              required
             />
             <Input onChange={setAddress} value={address} required />
             <Select
