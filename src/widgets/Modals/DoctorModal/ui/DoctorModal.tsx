@@ -15,6 +15,8 @@ import { Modal } from "../../../../features/Modal";
 import { DoctorApi } from "../../../../entities/Doctor/api/DoctorApi";
 import { SPECS } from "../../../../shared/types/constants";
 import toast from "react-hot-toast";
+import dayjs from "dayjs";
+import moment from "moment";
 
 interface ModalProps {
   isOpen: boolean;
@@ -75,7 +77,9 @@ export const DoctorModal = (props: ModalProps) => {
       setLastName(doctor?.lastName);
       setFirstName(doctor?.firstName);
       setSurname(doctor?.surname);
-      setDateOfBirth(doctor?.dateOfBirth);
+      var date: string[] | undefined = doctor?.dateOfBirth?.split('-');
+      var stringDate = date ? date[2] + '-' + date[1] + '-' + date[0] : "";
+      setDateOfBirth(stringDate);
       setSpecializationId(doctor?.specialization?.id.toString());
       setStatusId(doctor?.status?.id.toString());
       setAreaId(doctor?.area?.id.toString());

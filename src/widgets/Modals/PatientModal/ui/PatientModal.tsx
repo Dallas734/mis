@@ -55,7 +55,9 @@ export const PatientModal = (props: ModalProps) => {
       setLastName(patient?.lastName);
       setFirstName(patient?.firstName);
       setSurname(patient?.surname);
-      setDateOfBirth(patient?.dateOfBirth);
+      var date: string[] | undefined = patient?.dateOfBirth?.split('-');
+      var stringDate = date ? date[2] + '-' + date[1] + '-' + date[0] : "";
+      setDateOfBirth(stringDate);
       setGenderId(patient?.gender?.id.toString());
       setAddress(patient?.address);
       setAreaId(patient?.area?.id.toString());
