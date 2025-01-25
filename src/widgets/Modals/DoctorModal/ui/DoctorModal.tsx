@@ -15,8 +15,6 @@ import { Modal } from "../../../../features/Modal";
 import { DoctorApi } from "../../../../entities/Doctor/api/DoctorApi";
 import { SPECS } from "../../../../shared/types/constants";
 import toast from "react-hot-toast";
-import dayjs from "dayjs";
-import moment from "moment";
 
 interface ModalProps {
   isOpen: boolean;
